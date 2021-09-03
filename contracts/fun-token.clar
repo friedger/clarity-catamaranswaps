@@ -39,3 +39,6 @@
 (define-constant ERR_NATIVE_FAILURE (err u99))
 
 (ft-mint? fun-token u100 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)
+
+(define-public (mint (amount uint))
+  (ft-mint? fun-token amount tx-sender))

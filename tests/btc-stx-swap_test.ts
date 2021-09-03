@@ -8,7 +8,7 @@ import {
 } from "../src/deps.ts";
 
 Clarinet.test({
-  name: "User can cancel after 100 blocks",
+  name: "User can cancel btc-stx swap after 100 blocks",
   async fn(chain: Chain, accounts: Map<string, Account>) {
     const wallet_1 = accounts.get("wallet_1")!;
     const wallet_2 = accounts.get("wallet_2")!;
@@ -21,14 +21,13 @@ Clarinet.test({
           types.uint(10000),
           "0x76a914c70e1ca5a5ef633fe5464821ca421c173997f38888ac",
           types.uint(ustx),
-          types.principal(wallet_2.address),
+          types.some(types.principal(wallet_2.address)),
         ],
         wallet_1.address
       ),
     ]);
 
     block.receipts[0].result.expectOk();
-    console.log(block.receipts[0]);
     const id = 0;
     block.receipts[0].result.expectOk().expectUint(id);
     assertEquals(
@@ -141,7 +140,7 @@ const validProof = types.tuple({
 });
 
 Clarinet.test({
-  name: "User can submit btc tx",
+  name: "User can submit btc tx but verification fails on VM",
   async fn(chain: Chain, accounts: Map<string, Account>) {
     const wallet_1 = accounts.get("wallet_1")!;
     const wallet_2 = accounts.get("wallet_2")!;
@@ -155,14 +154,13 @@ Clarinet.test({
           types.uint(10000),
           "0x76a914c70e1ca5a5ef633fe5464821ca421c173997f38888ac",
           types.uint(ustx),
-          types.principal(wallet_2.address),
+          types.some(types.principal(wallet_2.address)),
         ],
         wallet_1.address
       ),
     ]);
 
     block.receipts[0].result.expectOk();
-    console.log(block.receipts[0]);
     const id = 0;
     block.receipts[0].result.expectOk().expectUint(id);
     assertEquals(
