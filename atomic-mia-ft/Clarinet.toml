@@ -1,0 +1,26 @@
+
+[project]
+name = "catamaranswaps"
+
+
+[[project.requirements]]
+contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard"
+
+[[project.requirements]]
+contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.citycoin-core-trait"
+
+[[project.requirements]]
+contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.citycoin-token-trait"
+
+[[project.requirements]]
+contract_id ="SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-auth"
+
+[[project.requirements]]
+contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-token"
+
+[contracts.mia-ft-swap]
+path = "contracts/mia-ft-swap.clar"
+depends_on = []
+
+
+[notebooks]

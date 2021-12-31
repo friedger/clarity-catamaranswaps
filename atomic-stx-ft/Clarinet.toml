@@ -29,24 +29,8 @@ contract_id ="SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-auth"
 [[project.requirements]]
 contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-token"
 
-[contracts.btc-ft-swap]
-path = "contracts/btc-ft-swap.clar"
-depends_on = []
-
-[contracts.btc-nft-swap]
-path = "contracts/btc-nft-swap.clar"
-depends_on = []
-
-[contracts.btc-stx-swap]
-path = "contracts/btc-stx-swap.clar"
-depends_on = []
-
 [contracts.stx-ft-swap]
 path = "contracts/stx-ft-swap.clar"
-depends_on = []
-
-[contracts.clarity-bitcoin]
-path = "contracts/clarity-bitcoin.clar"
 depends_on = []
 
 [contracts.fixed-fees]

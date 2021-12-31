@@ -1,0 +1,40 @@
+
+[project]
+name = "catamaranswaps"
+
+[[project.requirements]]
+contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait"
+
+[[project.requirements]]
+contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-lib-v1"
+
+[[project.requirements]]
+contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard"
+
+[[project.requirements]]
+contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.send-many-memo"
+
+[[project.requirements]]
+contract_id = "SPZ0RAC1EFTH949T4W2SYY6YBHJRMAF4ECT5A7DD.oracle-v1"
+
+[[project.requirements]]
+contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.citycoin-core-trait"
+
+[[project.requirements]]
+contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.citycoin-token-trait"
+
+[[project.requirements]]
+contract_id ="SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-auth"
+
+[[project.requirements]]
+contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-token"
+
+[contracts.btc-stx-swap]
+path = "contracts/btc-stx-swap.clar"
+depends_on = []
+
+[contracts.clarity-bitcoin]
+path = "contracts/clarity-bitcoin.clar"
+depends_on = []
+
+[notebooks]

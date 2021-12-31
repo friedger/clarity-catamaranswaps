@@ -6,7 +6,7 @@ import {
   types,
   assertEquals,
   assertObjectMatch,
-} from "../src/deps.ts";
+} from "../../src/deps.ts";
 
 Clarinet.test({
   name: "User can cancel stx-ft swap after 100 blocks",

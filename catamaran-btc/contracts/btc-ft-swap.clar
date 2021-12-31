@@ -1,3 +1,6 @@
+;; DO NOT USE -- SECURITY THREAT
+;; bad actors can withdraw all assets from escrow contract
+
 (use-trait fungible-token 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.sip-010-trait)
 (define-constant expiry u100)
 (define-map swaps uint {sats: uint, btc-receiver: (buff 40), amount: uint, ft-receiver: (optional principal), ft-sender: principal, when: uint, done: uint, ft: principal})

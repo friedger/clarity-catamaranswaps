@@ -1,0 +1,39 @@
+
+[project]
+name = "catamaranswaps"
+
+[[project.requirements]]
+contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait"
+
+[[project.requirements]]
+contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.send-many-memo"
+
+
+[contracts.fixed-fees]
+path = "contracts/fixed-fees.clar"
+depends_on = []
+
+
+[contracts.fun-nft]
+path = "contracts/fun-nft.clar"
+depends_on = []
+
+[contracts.fun-operable-nft]
+path = "contracts/fun-operable-nft.clar"
+depends_on = []
+
+[contracts.stx-nft-swap]
+path = "contracts/stx-nft-swap.clar"
+depends_on = []
+
+
+[contracts.stx-nft-many-swap]
+path = "contracts/stx-nft-many-swap.clar"
+depends_on = []
+
+
+[contracts.stx-nft-operable-many-swap]
+path = "contracts/stx-nft-operable-many-swap.clar"
+depends_on = []
+
+[notebooks]

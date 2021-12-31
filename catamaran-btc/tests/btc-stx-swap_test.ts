@@ -5,7 +5,7 @@ import {
   Account,
   types,
   assertEquals,
-} from "../src/deps.ts";
+} from "../../src/deps.ts";
 
 Clarinet.test({
   name: "User can cancel btc-stx swap after 100 blocks",
