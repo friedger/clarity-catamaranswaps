@@ -15,11 +15,11 @@ depends_on = []
 
 
 [contracts.fun-nft]
-path = "contracts/fun-nft.clar"
+path = "contracts/external/fun-nft.clar"
 depends_on = []
 
 [contracts.fun-operable-nft]
-path = "contracts/fun-operable-nft.clar"
+path = "contracts/external/fun-operable-nft.clar"
 depends_on = []
 
 [contracts.stx-nft-swap]
