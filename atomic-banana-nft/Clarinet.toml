@@ -2,45 +2,30 @@
 [project]
 name = "banana-nft-swap"
 
-[[project.requirements]]
-contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait"
+[contracts.ft-trait]
+path = "contracts/external/ft-trait.clar"
+depends_on = []
 
-[[project.requirements]]
-contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard"
+[contracts.nft-trait]
+path = "contracts/external/nft-trait.clar"
+depends_on = []
 
+[contracts.fun-nft]
+path = "contracts/external/fun-nft.clar"
+depends_on = []
 
-[[project.requirements]]
-contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.citycoin-token-trait"
-
-[[project.requirements]]
-contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.citycoin-core-trait"
-
-[[project.requirements]]
-contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-auth"
-
-
-[[project.requirements]]
-contract_id = "SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-token"
-
-[[project.requirements]]
-contract_id = "SP2H8PY27SEZ03MWRKS5XABZYQN17ETGQS3527SA5.newyorkcitycoin-auth"
+[contracts.fixed-fees]
+path = "contracts/fixed-fees.clar"
+depends_on = []
 
 
-[[project.requirements]]
-contract_id = "SP2H8PY27SEZ03MWRKS5XABZYQN17ETGQS3527SA5.newyorkcitycoin-token"
-
-[[project.requirements]]
-contract_id = "SP2KAF9RF86PVX3NEE27DFV1CQX0T4WGR41X3S45C.bitcoin-monkeys"
-
-[[project.requirements]]
-contract_id = "SP2KAF9RF86PVX3NEE27DFV1CQX0T4WGR41X3S45C.bitcoin-monkeys-staking"
-
-[[project.requirements]]
-contract_id = "SP2KAF9RF86PVX3NEE27DFV1CQX0T4WGR41X3S45C.bitcoin-monkeys-bananas"
+[contracts.bitcoin-monkeys-bananas]
+path = "contracts/external/bitcoin-monkeys-bananas.clar"
+depends_on = ["ft-trait"]
 
 [contracts.banana-nft-swap]
 path = "contracts/banana-nft-swap.clar"
-depends_on = []
+depends_on = ["bitcoin-monkeys-bananas", "nft-trait"]
 
 
 [notebooks]

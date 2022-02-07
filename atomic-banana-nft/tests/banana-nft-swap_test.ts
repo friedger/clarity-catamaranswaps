@@ -6,12 +6,12 @@ import {
   types,
   assertEquals,
   assertObjectMatch,
-} from "../../deps.ts"
+} from "../../src/deps.ts";
 
 const contractName = "banana-nft-swap";
 
 Clarinet.test({
-  name: "User can cancel stx-ft swap after 100 blocks",
+  name: "User can cancel banana-nft swap after 100 blocks",
   async fn(chain: Chain, accounts: Map<string, Account>) {
     const deployer = accounts.get("deployer")!;
     const wallet_1 = accounts.get("wallet_1")!;
@@ -20,8 +20,21 @@ Clarinet.test({
     const nftId = 1;
     const swapId = 0;
     let block = chain.mineBlock([
-      Tx.contractCall("fun-nft", "mint", [], wallet_1.address),
+      Tx.contractCall(
+        "bitcoin-monkeys-bananas",
+        "transfer",
+        [
+          types.uint(ubanana * 2),
+          types.principal(deployer.address),
+          types.principal(wallet_1.address),
+          types.none(),
+        ],
+        deployer.address
+      ),
+    ]);
+    block.receipts[0].result.expectOk().expectBool(true);
 
+    block = chain.mineBlock([
       Tx.contractCall(
         contractName,
         "create-swap",
@@ -35,17 +48,19 @@ Clarinet.test({
         wallet_1.address
       ),
     ]);
-
-    block.receipts[0].result.expectOk().expectBool(true);
-    block.receipts[1].result.expectOk().expectUint(swapId);
-    assertObjectMatch(block.receipts[1].events[0].stx_transfer_event, {
-      sender: wallet_1.address,
-      amount: `${ubanana / 100}`,
-    });
-    assertObjectMatch(block.receipts[1].events[1].stx_transfer_event, {
-      sender: wallet_1.address,
-      amount: `${ubanana}`,
-    });
+    block.receipts[0].result.expectOk().expectUint(swapId);
+    block.receipts[0].events.expectFungibleTokenTransferEvent(
+      ubanana / 100,
+      `${wallet_1.address}`,
+      `${deployer.address}.fixed-fees`,
+      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+    );
+    block.receipts[0].events.expectFungibleTokenTransferEvent(
+      ubanana,
+      `${wallet_1.address}`,
+      `${deployer.address}.banana-nft-swap`,
+      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+    );
 
     chain.mineEmptyBlock(99);
 
@@ -77,15 +92,19 @@ Clarinet.test({
       ),
     ]);
     block.receipts[0].result.expectOk();
-    assertObjectMatch(block.receipts[0].events[0].stx_transfer_event, {
-      recipient: wallet_2.address, // user 2 is rewarded with the fees
-      amount: `${ubanana / 100}`,
-    });
+    block.receipts[0].events.expectFungibleTokenTransferEvent(
+      ubanana / 100,
+      `${deployer.address}.fixed-fees`,
+      `${wallet_2.address}`,
+      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+    );
+    block.receipts[0].events.expectFungibleTokenTransferEvent(
+      ubanana,
+      `${deployer.address}.banana-nft-swap`,
+      `${wallet_1.address}`,
+      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+    );
 
-    assertObjectMatch(block.receipts[0].events[1].stx_transfer_event, {
-      recipient: wallet_1.address, // user 1 receives the stxs
-      amount: `${ubanana}`,
-    });
   },
 });
 
@@ -100,7 +119,17 @@ Clarinet.test({
     const nftId = 1;
     const swapId = 0;
     let block = chain.mineBlock([
-      Tx.contractCall("fun-nft", "mint", [], wallet_2.address),
+      Tx.contractCall(
+        "bitcoin-monkeys-bananas",
+        "transfer",
+        [
+          types.uint(ubanana * 2),
+          types.principal(deployer.address),
+          types.principal(wallet_1.address),
+          types.none(),
+        ],
+        deployer.address
+      ),
     ]);
     block.receipts[0].result.expectOk().expectBool(true);
 
@@ -118,21 +147,12 @@ Clarinet.test({
         wallet_1.address
       ),
     ]);
-
     block.receipts[0].result.expectOk().expectUint(swapId);
-    assertObjectMatch(block.receipts[0].events[0].stx_transfer_event, {
-      sender: wallet_1.address,
-      amount: `${ubanana / 100}`,
-    });
 
-    assertObjectMatch(block.receipts[0].events[1].stx_transfer_event, {
-      sender: wallet_1.address,
-      amount: `${ubanana}`,
-    });
 
     block = chain.mineBlock([
       Tx.contractCall(
-        "stx-nft-swap",
+        contractName,
         "submit-swap",
         [
           types.uint(swapId),
@@ -161,17 +181,25 @@ Clarinet.test({
 
     block.receipts[0].result.expectOk().expectBool(true);
     block.receipts[1].result.expectOk().expectBool(true);
-    assertObjectMatch(block.receipts[1].events[0].stx_transfer_event, {
-      recipient: deployer.address,
-      amount: `${ubanana / 100}`,
-    });
-    assertObjectMatch(block.receipts[1].events[1].nft_transfer_event, {
-      recipient: wallet_1.address,
-      value: "u1",
-    });
-    assertObjectMatch(block.receipts[1].events[2].stx_transfer_event, {
-      recipient: wallet_2.address,
-      amount: `${ubanana}`,
-    });
+
+    block.receipts[1].events.expectFungibleTokenTransferEvent(
+      ubanana / 100,
+      `${deployer.address}.fixed-fees`,
+      `${deployer.address}`,
+      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+    );
+    block.receipts[1].events.expectFungibleTokenTransferEvent(
+      ubanana,
+      `${deployer.address}.banana-nft-swap`,
+      `${wallet_2.address}`,
+      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+    );
+    block.receipts[1].events.expectNonFungibleTokenTransferEvent(
+      types.uint(nftId),
+      `${wallet_2.address}`,
+      `${wallet_1.address}`,
+      `${deployer.address}.fun-nft`,
+      `fun`,
+    );
   },
 });

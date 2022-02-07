@@ -1,4 +1,5 @@
-(use-trait non-fungible-token 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait.nft-trait)
+(use-trait non-fungible-token .nft-trait.nft-trait)
+;;(use-trait non-fungible-token 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait.nft-trait)
 
 ;; the fee structure is defined by the calling client
 ;; this is to avoid duplication of the protocol just with adjusted fee structure
@@ -15,7 +16,8 @@
 
 ;; helper function to transfer banana from tx-sender to a principal with memo
 (define-private (banana-transfer-to (ubanana uint) (to principal) (memo (buff 34)))
-  (contract-call? 'SP2KAF9RF86PVX3NEE27DFV1CQX0T4WGR41X3S45C.bitcoin-monkeys-bananas transfer
+  ;;(contract-call? 'SP2KAF9RF86PVX3NEE27DFV1CQX0T4WGR41X3S45C.bitcoin-monkeys-bananas transfer
+  (contract-call? .bitcoin-monkeys-bananas transfer
     ubanana tx-sender to (some memo)))
 
 ;; create a swap between btc and fungible token
