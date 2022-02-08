@@ -34,6 +34,6 @@ depends_on = []
 
 [contracts.stx-nft-operable-many-swap]
 path = "contracts/stx-nft-operable-many-swap.clar"
-depends_on = []
+depends_on = ["fun-nft"]
 
 [notebooks]

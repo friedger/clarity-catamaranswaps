@@ -12,7 +12,14 @@ const contractName = "banana-nft-swap";
 
 Clarinet.test({
   name: "User can cancel stx-ft swap after 100 blocks",
-  async fn(chain: Chain, accounts: Map<string, Account>) {
+  beforeContractsDeployment: async (chain: Chain, accounts: Map<string, Account>) => {
+    const deployer = accounts.get("deployer")!;
+    chain.mineBlock([
+      Tx.transferSTX(1000000000, "SP2KAF9RF86PVX3NEE27DFV1CQX0T4WGR41X3S45C", deployer.address)
+    ]);
+    chain.mineEmptyBlock(39351);
+  },
+  async fn(chain: Chain, accounts: Map<string, Account>, contracts: Map<string, Contract>) {
     const deployer = accounts.get("deployer")!;
     const wallet_1 = accounts.get("wallet_1")!;
     const wallet_2 = accounts.get("wallet_2")!;
@@ -91,6 +98,9 @@ Clarinet.test({
 
 Clarinet.test({
   name: "User can submit nft",
+  beforeContractsDeployment: async (chain: Chain, accounts: Map<string, Account>) => {
+    chain.mineEmptyBlock(39351);
+  },
   async fn(chain: Chain, accounts: Map<string, Account>) {
     const deployer = accounts.get("deployer")!;
     const wallet_1 = accounts.get("wallet_1")!;

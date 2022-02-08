@@ -1,5 +1,6 @@
 export type {
   Account,
+  Contract,
   ReadOnlyFn,
 } from "https://deno.land/x/clarinet@v0.20.0/index.ts";
 
