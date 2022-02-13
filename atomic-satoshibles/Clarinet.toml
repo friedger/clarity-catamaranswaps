@@ -18,6 +18,10 @@ depends_on = []
 path = "contracts/external/fun-nft.clar"
 depends_on = []
 
+[contracts.fun-token]
+path = "contracts/external/fun-token.clar"
+depends_on = []
+
 [contracts.fixed-fees]
 path = "contracts/fixed-fees.clar"
 depends_on = []
@@ -30,6 +34,10 @@ depends_on = ["nft-trait"]
 [contracts.satoshible-nft-swap]
 path = "contracts/satoshible-nft-swap.clar"
 depends_on = ["satoshibles", "nft-trait", "commission-trait"]
+
+[contracts.satoshible-ft-swap]
+path = "contracts/satoshible-ft-swap.clar"
+depends_on = ["satoshibles", "ft-trait", "commission-trait"]
 
 
 [notebooks]

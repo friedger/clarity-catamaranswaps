@@ -4,7 +4,8 @@
 (define-constant fee-receiver tx-sender)
 
 (define-private (is-called-by-charging-ctr)
-  (is-eq contract-caller .satoshible-nft-swap))
+  (or (is-eq contract-caller .satoshible-nft-swap)
+    (is-eq contract-caller .satoshible-ft-swap)))
 
 (define-private (calc-fees (nft-id uint))
   u1000000)
