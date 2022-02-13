@@ -1,0 +1,35 @@
+
+[project]
+name = "banana-nft-swap"
+
+[contracts.ft-trait]
+path = "contracts/external/ft-trait.clar"
+depends_on = []
+
+[contracts.nft-trait]
+path = "contracts/external/nft-trait.clar"
+depends_on = []
+
+[contracts.commission-trait]
+path = "contracts/external/commission-trait.clar"
+depends_on = []
+
+[contracts.fun-nft]
+path = "contracts/external/fun-nft.clar"
+depends_on = []
+
+[contracts.fixed-fees]
+path = "contracts/fixed-fees.clar"
+depends_on = []
+
+
+[contracts.satoshibles]
+path = "contracts/external/satoshibles.clar"
+depends_on = ["nft-trait"]
+
+[contracts.satoshible-nft-swap]
+path = "contracts/satoshible-nft-swap.clar"
+depends_on = ["satoshibles", "nft-trait", "commission-trait"]
+
+
+[notebooks]
