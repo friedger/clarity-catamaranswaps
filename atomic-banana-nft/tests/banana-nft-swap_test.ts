@@ -21,7 +21,7 @@ Clarinet.test({
     const swapId = 0;
     let block = chain.mineBlock([
       Tx.contractCall(
-        "bitcoin-monkeys-bananas",
+        "btc-monkeys-bananas",
         "transfer",
         [
           types.uint(ubanana * 2),
@@ -53,13 +53,13 @@ Clarinet.test({
       ubanana / 100,
       `${wallet_1.address}`,
       `${deployer.address}.fixed-fees`,
-      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+      `${deployer.address}.btc-monkeys-bananas::BANANA`,
     );
     block.receipts[0].events.expectFungibleTokenTransferEvent(
       ubanana,
       `${wallet_1.address}`,
       `${deployer.address}.banana-nft-swap`,
-      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+      `${deployer.address}.btc-monkeys-bananas::BANANA`,
     );
 
     chain.mineEmptyBlock(99);
@@ -96,13 +96,13 @@ Clarinet.test({
       ubanana / 100,
       `${deployer.address}.fixed-fees`,
       `${wallet_2.address}`,
-      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+      `${deployer.address}.btc-monkeys-bananas::BANANA`,
     );
     block.receipts[0].events.expectFungibleTokenTransferEvent(
       ubanana,
       `${deployer.address}.banana-nft-swap`,
       `${wallet_1.address}`,
-      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+      `${deployer.address}.btc-monkeys-bananas::BANANA`,
     );
 
   },
@@ -120,7 +120,7 @@ Clarinet.test({
     const swapId = 0;
     let block = chain.mineBlock([
       Tx.contractCall(
-        "bitcoin-monkeys-bananas",
+        "btc-monkeys-bananas",
         "transfer",
         [
           types.uint(ubanana * 2),
@@ -186,13 +186,13 @@ Clarinet.test({
       ubanana / 100,
       `${deployer.address}.fixed-fees`,
       `${deployer.address}`,
-      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+      `${deployer.address}.btc-monkeys-bananas::BANANA`,
     );
     block.receipts[1].events.expectFungibleTokenTransferEvent(
       ubanana,
       `${deployer.address}.banana-nft-swap`,
       `${wallet_2.address}`,
-      `${deployer.address}.bitcoin-monkeys-bananas::BANANA`,
+      `${deployer.address}.btc-monkeys-bananas::BANANA`,
     );
     block.receipts[1].events.expectNonFungibleTokenTransferEvent(
       types.uint(nftId),

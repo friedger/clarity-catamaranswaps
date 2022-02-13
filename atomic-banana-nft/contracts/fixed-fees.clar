@@ -15,7 +15,8 @@
 
 ;; helper function to transfer banana from tx-sender to a principal with memo
 (define-private (banana-transfer-to (ubanana uint) (to principal) (memo (buff 34)))
-  (contract-call? .bitcoin-monkeys-bananas transfer
+  ;;(contract-call? 'SP2KAF9RF86PVX3NEE27DFV1CQX0T4WGR41X3S45C.btc-monkeys-bananas transfer
+  (contract-call? .btc-monkeys-bananas transfer
     ubanana tx-sender to (some memo)))
 
 ;; Hold fees for the given amount in escrow.

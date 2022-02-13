@@ -19,13 +19,13 @@ path = "contracts/fixed-fees.clar"
 depends_on = []
 
 
-[contracts.bitcoin-monkeys-bananas]
-path = "contracts/external/bitcoin-monkeys-bananas.clar"
+[contracts.btc-monkeys-bananas]
+path = "contracts/external/btc-monkeys-bananas.clar"
 depends_on = ["ft-trait"]
 
 [contracts.banana-nft-swap]
 path = "contracts/banana-nft-swap.clar"
-depends_on = ["bitcoin-monkeys-bananas", "nft-trait"]
+depends_on = ["btc-monkeys-bananas", "nft-trait"]
 
 
 [notebooks]
