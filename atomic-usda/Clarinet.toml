@@ -1,6 +1,6 @@
 
 [project]
-name = "banana-nft-swap"
+name = "usda-swap"
 
 [contracts.ft-trait]
 path = "contracts/external/ft-trait.clar"

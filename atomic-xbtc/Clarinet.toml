@@ -1,6 +1,6 @@
 
 [project]
-name = "banana-swap"
+name = "xbtc-swap"
 
 [contracts.ft-trait]
 path = "contracts/external/ft-trait.clar"
@@ -20,20 +20,20 @@ depends_on = []
 
 [contracts.fixed-fees]
 path = "contracts/fixed-fees.clar"
-depends_on = ["miamicoin-token"]
+depends_on = ["Wrapped-Bitcoin"]
 
 
-[contracts.miamicoin-token]
-path = "contracts/external/miamicoin-token.clar"
+[contracts.Wrapped-Bitcoin]
+path = "contracts/external/Wrapped-Bitcoin.clar"
 depends_on = ["ft-trait"]
 
-[contracts.mia-nft-swap]
-path = "contracts/mia-nft-swap.clar"
-depends_on = ["miamicoin-token", "nft-trait"]
+[contracts.xbtc-nft-swap]
+path = "contracts/xbtc-nft-swap.clar"
+depends_on = ["Wrapped-Bitcoin", "nft-trait"]
 
-[contracts.mia-ft-swap]
-path = "contracts/mia-ft-swap.clar"
-depends_on = ["miamicoin-token", "ft-trait"]
+[contracts.xbtc-ft-swap]
+path = "contracts/xbtc-ft-swap.clar"
+depends_on = ["Wrapped-Bitcoin", "ft-trait"]
 
 
 [notebooks]
