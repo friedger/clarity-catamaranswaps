@@ -1,4 +1,4 @@
-(impl-trait 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.sip-010-trait)
+(impl-trait .ft-trait.sip-010-trait)
 
 (define-fungible-token fun-token)
 
@@ -38,7 +38,7 @@
 (define-constant ERR_TX_IGNORED (err u6))
 (define-constant ERR_NATIVE_FAILURE (err u99))
 
-(ft-mint? fun-token u100 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)
+(ft-mint? fun-token u100 tx-sender)
 
 (define-public (mint (amount uint))
   (ft-mint? fun-token amount tx-sender))

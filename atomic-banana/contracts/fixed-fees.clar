@@ -4,7 +4,9 @@
 (define-constant fee-receiver tx-sender)
 
 (define-private (is-called-by-charging-ctr)
-  (is-eq contract-caller .banana-nft-swap))
+  (or (is-eq contract-caller .banana-nft-swap)
+    (is-eq contract-caller .banana-ft-swap)))
+
 
 (define-private (calc-fees (ubanana uint))
   (/ ubanana u100))

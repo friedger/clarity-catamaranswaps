@@ -14,9 +14,13 @@ depends_on = []
 path = "contracts/external/fun-nft.clar"
 depends_on = []
 
+[contracts.fun-token]
+path = "contracts/external/fun-token.clar"
+depends_on = []
+
 [contracts.fixed-fees]
 path = "contracts/fixed-fees.clar"
-depends_on = []
+depends_on = ["btc-monkeys-bananas"]
 
 
 [contracts.btc-monkeys-bananas]
@@ -26,6 +30,10 @@ depends_on = ["ft-trait"]
 [contracts.banana-nft-swap]
 path = "contracts/banana-nft-swap.clar"
 depends_on = ["btc-monkeys-bananas", "nft-trait"]
+
+[contracts.banana-ft-swap]
+path = "contracts/banana-ft-swap.clar"
+depends_on = ["btc-monkeys-bananas", "ft-trait"]
 
 
 [notebooks]

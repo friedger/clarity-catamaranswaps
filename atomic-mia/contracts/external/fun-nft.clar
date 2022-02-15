@@ -1,10 +1,7 @@
-(impl-trait 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait.nft-trait)
-
 (define-non-fungible-token fun uint)
 
 ;; Storage
 (define-map token-count principal uint)
-(define-map approved {owner: principal, operator: principal} bool)
 
 ;; Define Constants
 (define-constant CONTRACT-OWNER tx-sender)
@@ -17,13 +14,10 @@
   (default-to u0
     (map-get? token-count account)))
 
-
 ;; SIP009: Transfer token to a specified principal
 (define-public (transfer (id uint) (sender principal) (recipient principal))
   (begin
-    (asserts! (or
-       (is-eq contract-caller sender)
-       (default-to false (map-get? approved {owner: sender, operator: contract-caller}))) (err u401))
+    (asserts! (is-eq tx-sender sender) (err u401))
     (nft-transfer? fun id sender recipient)))
 
 ;; SIP009: Get the owner of the specified token ID
@@ -43,6 +37,3 @@
   (let ((next-id (+ u1 (var-get last-id))))
     (var-set last-id next-id)
     (nft-mint? fun next-id tx-sender)))
-
-(define-public (set-approved (operator principal) (apprvd bool))
-  (ok (map-set approved {owner: contract-caller, operator: operator} apprvd)))

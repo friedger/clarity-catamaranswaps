@@ -6,22 +6,33 @@ import {
   types,
   assertEquals,
   assertObjectMatch,
-} from "../src/deps.ts";
+} from "../../src/deps.ts";
+import { transfer } from "./client/mia.ts";
+
+const contractName = "mia-ft-swap";
+const assetSuffix = "miamicoin-token::miamicoin";
 
 Clarinet.test({
-  name: "User can cancel stx-ft swap after 100 blocks",
+  name: "User can cancel mia-ft swap after 100 blocks",
   async fn(chain: Chain, accounts: Map<string, Account>) {
     const deployer = accounts.get("deployer")!;
     const wallet_1 = accounts.get("wallet_1")!;
     const wallet_2 = accounts.get("wallet_2")!;
-    const ustx = 1_000_000;
+    const miaAmount = 100;
     const amountFt = 10;
+    const swapId = 0;
+
     let block = chain.mineBlock([
+      transfer(miaAmount * 2, deployer, wallet_1, deployer),
+    ]);
+    block.receipts[0].result.expectOk().expectBool(true);
+
+    block = chain.mineBlock([
       Tx.contractCall(
-        "mia-ft-swap",
+        contractName,
         "create-swap",
         [
-          types.uint(ustx),
+          types.uint(miaAmount),
           types.uint(amountFt),
           types.some(types.principal(wallet_2.address)),
           types.principal(deployer.address + "." + "fun-token"),
@@ -30,28 +41,28 @@ Clarinet.test({
         wallet_1.address
       ),
     ]);
-
-    block.receipts[0].result.expectOk();
-    const id = 0;
-    block.receipts[0].result.expectOk().expectUint(id);
-    assertObjectMatch(block.receipts[0].events[0].stx_transfer_event, {
-      sender: wallet_1.address,
-      amount: `${ustx / 100}`,
-    });
-    assertObjectMatch(block.receipts[0].events[1].stx_transfer_event, {
-      sender: wallet_1.address,
-      amount: `${ustx}`,
-    });
+    block.receipts[0].result.expectOk().expectUint(swapId);
+    block.receipts[0].events.expectFungibleTokenTransferEvent(
+      miaAmount,
+      `${wallet_1.address}`,
+      `${deployer.address}.${contractName}`,
+      `${deployer.address}.${assetSuffix}`
+    );
+    block.receipts[0].events.expectFungibleTokenTransferEvent(
+      miaAmount / 100,
+      `${wallet_1.address}`,
+      `${deployer.address}.fixed-fees`,
+      `${deployer.address}.${assetSuffix}`
+    );
 
     chain.mineEmptyBlock(99);
 
     block = chain.mineBlock([
       Tx.contractCall(
-        "mia-ft-swap",
+        contractName,
         "cancel",
         [
-          types.uint(id),
-          types.principal(deployer.address + "." + "fun-token"),
+          types.uint(swapId),
           types.principal(deployer.address + "." + "fixed-fees"),
         ],
         wallet_1.address
@@ -62,26 +73,28 @@ Clarinet.test({
 
     block = chain.mineBlock([
       Tx.contractCall(
-        "mia-ft-swap",
+        contractName,
         "cancel",
         [
-          types.uint(id),
-          types.principal(deployer.address + "." + "fun-token"),
+          types.uint(swapId),
           types.principal(deployer.address + "." + "fixed-fees"),
         ],
         wallet_2.address
       ),
     ]);
     block.receipts[0].result.expectOk();
-    assertObjectMatch(block.receipts[0].events[0].stx_transfer_event, {
-      recipient: wallet_2.address, // user 2 is rewarded with the fees
-      amount: `${ustx / 100}`,
-    });
-
-    assertObjectMatch(block.receipts[0].events[1].stx_transfer_event, {
-      recipient: wallet_1.address, // user 1 receives the stxs
-      amount: `${ustx}`,
-    });
+    block.receipts[0].events.expectFungibleTokenTransferEvent(
+      miaAmount,
+      `${deployer.address}.${contractName}`,
+      `${wallet_1.address}`,
+      `${deployer.address}.${assetSuffix}`
+    );
+    block.receipts[0].events.expectFungibleTokenTransferEvent(
+      miaAmount / 100,
+      `${deployer.address}.fixed-fees`,
+      `${wallet_2.address}`,
+      `${deployer.address}.${assetSuffix}`
+    );
   },
 });
 
@@ -92,14 +105,21 @@ Clarinet.test({
     const wallet_1 = accounts.get("wallet_1")!;
     const wallet_2 = accounts.get("wallet_2")!;
     const wallet_3 = accounts.get("wallet_3")!;
-    const ustx = 1_000_000;
+    const miaAmount = 100;
     const amountFt = 10;
+    const swapId = 0;
+
     let block = chain.mineBlock([
+      transfer(miaAmount * 2, deployer, wallet_1, deployer),
+    ]);
+    block.receipts[0].result.expectOk().expectBool(true);
+
+    block = chain.mineBlock([
       Tx.contractCall(
-        "mia-ft-swap",
+        contractName,
         "create-swap",
         [
-          types.uint(ustx),
+          types.uint(miaAmount),
           types.uint(amountFt),
           types.some(types.principal(wallet_2.address)),
           types.principal(deployer.address + "." + "fun-token"),
@@ -108,26 +128,14 @@ Clarinet.test({
         wallet_1.address
       ),
     ]);
-
-    block.receipts[0].result.expectOk();
-    const id = 0;
-    block.receipts[0].result.expectOk().expectUint(id);
-    assertObjectMatch(block.receipts[0].events[0].stx_transfer_event, {
-      sender: wallet_1.address,
-      amount: `${ustx / 100}`,
-    });
-
-    assertObjectMatch(block.receipts[0].events[1].stx_transfer_event, {
-      sender: wallet_1.address,
-      amount: `${ustx}`,
-    });
+    block.receipts[0].result.expectOk().expectUint(swapId);
 
     block = chain.mineBlock([
       Tx.contractCall(
-        "mia-ft-swap",
+        contractName,
         "submit-swap",
         [
-          types.uint(id),
+          types.uint(swapId),
           types.principal(deployer.address + "." + "fun-token"),
           types.principal(deployer.address + "." + "fixed-fees"),
         ],
@@ -135,15 +143,15 @@ Clarinet.test({
       ),
     ]);
 
-    block.receipts[0].result.expectErr().expectUint(9); // invalid stx receiver, can only be called by seller
+    block.receipts[0].result.expectErr().expectUint(9); // invalid receiver, can only be called by seller
 
     block = chain.mineBlock([
       Tx.contractCall("fun-token", "mint", [types.uint(10)], wallet_2.address),
       Tx.contractCall(
-        "mia-ft-swap",
+        contractName,
         "submit-swap",
         [
-          types.uint(id),
+          types.uint(swapId),
           types.principal(deployer.address + "." + "fun-token"),
           types.principal(deployer.address + "." + "fixed-fees"),
         ],
@@ -153,18 +161,24 @@ Clarinet.test({
 
     block.receipts[0].result.expectOk().expectBool(true);
     block.receipts[1].result.expectOk().expectBool(true);
-    assertObjectMatch(block.receipts[1].events[0].stx_transfer_event, {
-      recipient: deployer.address,
-      amount: `${ustx / 100}`,
-    });
-    assertObjectMatch(block.receipts[1].events[1].ft_transfer_event, {
-      recipient: wallet_1.address,
-      amount: `${amountFt}`,
-    });
 
-    assertObjectMatch(block.receipts[1].events[3].stx_transfer_event, {
-      recipient: wallet_2.address,
-      amount: `${ustx}`,
-    });
+    block.receipts[1].events.expectFungibleTokenTransferEvent(
+      miaAmount,
+      `${deployer.address}.${contractName}`,
+      `${wallet_2.address}`,
+      `${deployer.address}.${assetSuffix}`
+    );
+    block.receipts[1].events.expectFungibleTokenTransferEvent(
+      amountFt,
+      `${wallet_2.address}`,
+      `${wallet_1.address}`,
+      `${deployer.address}.fun-token::fun-token`
+    );
+    block.receipts[1].events.expectFungibleTokenTransferEvent(
+      miaAmount / 100,
+      `${deployer.address}.fixed-fees`,
+      `${deployer.address}`,
+      `${deployer.address}.${assetSuffix}`
+    );
   },
 });
