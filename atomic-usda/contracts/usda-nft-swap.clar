@@ -10,40 +10,39 @@
   (pay-fees (uint) (response bool uint))))
 
 (define-constant expiry u100)
-(define-map swaps uint {mia: uint, mia-sender: principal, nft-id: uint, nft-sender: (optional principal), when: uint, open: bool, nft: principal, fees: principal})
+(define-map swaps uint {usda: uint, buyer: principal, nft-id: uint, nft-sender: (optional principal), when: uint, open: bool, nft: principal, fees: principal})
 (define-data-var next-id uint u0)
 
-
-;; helper function to transfer mia to a principal with memo
-(define-private (mia-transfer-to (amount uint) (to principal) (memo (buff 34)))
-  ;;(contract-call? 'SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-token
-  (contract-call? .miamicoin-token
+;; helper function to transfer usda to a principal with memo
+(define-private (usda-transfer-to (amount uint) (to principal) (memo (buff 34)))
+  ;;(contract-call? 'SP2C2YFP12AJZB4MABJBAJ55XECVS7E4PMMZ89YZR.usda-token
+  (contract-call? .usda-token
     transfer amount tx-sender to (some memo)))
 
 ;; create a swap between btc and fungible token
-(define-public (create-swap (mia uint) (nft-id uint) (nft-sender (optional principal)) (nft <non-fungible-token>) (fees <fees-trait>))
+(define-public (create-swap (usda uint) (nft-id uint) (nft-sender (optional principal)) (nft <non-fungible-token>) (fees <fees-trait>))
   (let ((id (var-get next-id)))
     (asserts! (map-insert swaps id
-      {mia: mia, mia-sender: tx-sender, nft-id: nft-id, nft-sender: nft-sender,
+      {usda: usda, buyer: tx-sender, nft-id: nft-id, nft-sender: nft-sender,
          when: block-height, open: true, nft: (contract-of nft), fees: (contract-of fees)}) ERR_INVALID_ID)
     (var-set next-id (+ id u1))
-    (try! (contract-call? fees hold-fees mia))
-    (match (mia-transfer-to mia (as-contract tx-sender) 0x636174616d6172616e2073776170)
+    (try! (contract-call? fees hold-fees usda))
+    (match (usda-transfer-to usda (as-contract tx-sender) 0x636174616d6172616e2073776170)
       success (ok id)
       error (err (* error u100)))))
 
 ;; any user can cancle the swap after the expiry period
 (define-public (cancel (id uint) (nft <non-fungible-token>) (fees <fees-trait>))
   (let ((swap (unwrap! (map-get? swaps id) ERR_INVALID_ID))
-    (mia (get mia swap)))
+    (usda (get usda swap)))
       (asserts! (is-eq (contract-of nft) (get nft swap)) ERR_INVALID_FUNGIBLE_TOKEN)
       (asserts! (is-eq (contract-of fees) (get fees swap)) ERR_INVALID_FEES_TRAIT)
       (asserts! (< (+ (get when swap) expiry) block-height) ERR_TOO_EARLY)
       (asserts! (get open swap) ERR_ALREADY_DONE)
       (asserts! (map-set swaps id (merge swap {open: false})) ERR_NATIVE_FAILURE)
-      (try! (contract-call? fees release-fees mia))
-      (match (as-contract (mia-transfer-to
-                mia (get mia-sender swap)
+      (try! (contract-call? fees release-fees usda))
+      (match (as-contract (usda-transfer-to
+                usda (get buyer swap)
                 0x72657665727420636174616d6172616e2073776170))
         success (ok success)
         error (err (* error u100)))))
@@ -54,20 +53,20 @@
     (nft <non-fungible-token>)
     (fees <fees-trait>))
   (let ((swap (unwrap! (map-get? swaps id) ERR_INVALID_ID))
-    (mia (get mia swap))
+    (usda (get usda swap))
     (receiver (default-to tx-sender (get nft-sender swap))))
       (asserts! (get open swap) ERR_ALREADY_DONE)
       (asserts! (is-eq (contract-of nft) (get nft swap)) ERR_INVALID_FUNGIBLE_TOKEN)
       (asserts! (is-eq (contract-of fees) (get fees swap)) ERR_INVALID_FEES_TRAIT)
       (asserts! (map-set swaps id (merge swap {open: false})) ERR_NATIVE_FAILURE)
       (asserts! (is-eq tx-sender receiver) ERR_INVALID_RECEIVER)
-      (try! (contract-call? fees pay-fees mia))
+      (try! (contract-call? fees pay-fees usda))
       (match (contract-call? nft transfer
-          (get nft-id swap) receiver (get mia-sender swap))
+          (get nft-id swap) receiver (get buyer swap))
         success-nft (begin
             (asserts! success-nft ERR_NATIVE_FAILURE)
-            (match (as-contract (mia-transfer-to
-                (get mia swap) receiver
+            (match (as-contract (usda-transfer-to
+                (get usda swap) receiver
                 0x636174616d6172616e2073776170))
               success (ok success)
               error (err (* error u100))))

@@ -1,0 +1,39 @@
+
+[project]
+name = "banana-nft-swap"
+
+[contracts.ft-trait]
+path = "contracts/external/ft-trait.clar"
+depends_on = []
+
+[contracts.nft-trait]
+path = "contracts/external/nft-trait.clar"
+depends_on = []
+
+[contracts.fun-nft]
+path = "contracts/external/fun-nft.clar"
+depends_on = []
+
+[contracts.fun-token]
+path = "contracts/external/fun-token.clar"
+depends_on = []
+
+[contracts.fixed-fees]
+path = "contracts/fixed-fees.clar"
+depends_on = ["usda-token"]
+
+
+[contracts.usda-token]
+path = "contracts/external/usda-token.clar"
+depends_on = ["ft-trait"]
+
+[contracts.usda-nft-swap]
+path = "contracts/usda-nft-swap.clar"
+depends_on = ["usda-token", "nft-trait"]
+
+[contracts.usda-ft-swap]
+path = "contracts/usda-ft-swap.clar"
+depends_on = ["usda-token", "ft-trait"]
+
+
+[notebooks]
