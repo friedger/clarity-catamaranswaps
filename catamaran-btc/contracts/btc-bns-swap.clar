@@ -29,7 +29,7 @@
         when: block-height, done: u0}) ERR_INVALID_ID)
     (var-set next-id (+ id u1))
     ;; attention: escrow can only own one name at a time
-    (match (contract-call? 'SP000000000000000000002Q6VF78.bns name-transfer  namespace name (as-contract tx-sender) (some (get zonefile-hash name-props)))
+    (match (contract-call? 'SP000000000000000000002Q6VF78.bns name-transfer namespace name (as-contract tx-sender) (some (get zonefile-hash name-props)))
       success (ok id)
       error (err (* (to-uint error) u1000)))))
 
