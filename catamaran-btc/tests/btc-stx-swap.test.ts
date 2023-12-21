@@ -140,7 +140,7 @@ const validProof = Cl.tuple({
 });
 
 describe("User can submit btc tx but verification fails on VM", () => {
-   it("should allow user to submit btc tx  but verification fails on VM", () => {
+   it("should allow user to submit btc tx but verification fails on VM", () => {
       let block = simnet.callPublicFn(
          "btc-stx-swap",
          "create-swap",
@@ -167,6 +167,6 @@ describe("User can submit btc tx but verification fails on VM", () => {
          wallet_3
       );
 
-      expect(block.result).toBeErr(Cl.uint(1000)); // ERR_VERIFICATION_FAILED due to clarinet block header
+      expect(block.result).toBeErr(Cl.uint(6000)); // ERR_VERIFICATION_FAILED due to clarinet block header
    });
 });
