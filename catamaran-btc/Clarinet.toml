@@ -31,6 +31,10 @@ contract_id = 'SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-auth'
 
 [[project.requirements]]
 contract_id = 'SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-token'
+
+[[project.requirements]]
+contract_id = 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-lib-v5'
+
 [contracts.btc-bns-swap]
 path = 'contracts/btc-bns-swap.clar'
 clarity_version = 2
