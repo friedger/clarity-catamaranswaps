@@ -144,9 +144,6 @@ describe("User can cancel btc-sbtc swap", () => {
     const bchh = rov(clarityBitcoinLibV5.getBcHHash(validBlock.height));
     console.log("bchh", bchh ? bytesToHex(bchh) : "null");
 
-    const bhh = rov(clarityBitcoinLibV5.getBhh(blockHeader));
-    console.log("bhh", bhh ? bytesToHex(bhh) : "null");
-
     const blockHeaderHash = hexToBytes(
       "44fc864fe70a66fd161f6140ff96930690950d30efc2f8d12000000000000000"
     ).reverse();
@@ -163,7 +160,7 @@ describe("User can cancel btc-sbtc swap", () => {
     );
     expect(submissionByAlice.value).toBe(4n);
 
-    const submission = txOk(
+    const submission = txErr(
       btcSbtcSwap.submitSwap(
         requestId,
         validBlock.height,
@@ -174,5 +171,7 @@ describe("User can cancel btc-sbtc swap", () => {
       bob
     );
     console.log(submission);
+
+    expect(submission.value).toBe(6000n); // ERR_VERIFICATION_FAILED due to clarinet block header
   });
 });

@@ -1,6 +1,6 @@
 
 [project]
-name = "catamaranswaps"
+name = "catamaran-btc"
 description = ''
 authors = ["friedger"]
 telemetry = false

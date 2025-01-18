@@ -72,7 +72,7 @@
 (define-public (submit-swap
     (id uint)
     (height uint)
-    (blockheader (buff 32))
+    (blockheader (buff 80))
     (tx {version: (buff 4),
       ins: (list 8
         {outpoint: {hash: (buff 32), index: (buff 4)}, scriptSig: (buff 256), sequence: (buff 4)}),
