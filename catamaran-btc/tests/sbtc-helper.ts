@@ -5,6 +5,8 @@ import { expect } from "vitest";
 
 const { sbtcDeposit, btcSbtcSwap } = projectFactory(project, "simnet");
 
+export const swapAmount = 1000000;
+
 export function mineSbtc(recipient: string) {
   const blockHeight = 1000;
   const burnHash = rov(sbtcDeposit.getBurnHeader(blockHeight));
@@ -33,9 +35,9 @@ export function mineSbtc(recipient: string) {
 export function createSwap(alice: string, bob: string) {
   const swap = txOk(
     btcSbtcSwap.createSwap(
-      100000,
+      swapAmount,
       hexToBytes("76a914c70e1ca5a5ef633fe5464821ca421c173997f38888ac"),
-      1000000,
+      swapAmount,
       bob,
       1000
     ),
@@ -43,4 +45,5 @@ export function createSwap(alice: string, bob: string) {
   );
   const expectedSwapId = 0n;
   expect(swap.value).toBe(expectedSwapId);
+  return expectedSwapId;
 }
