@@ -29,9 +29,9 @@
         when: block-height, done: u0}) ERR_INVALID_ID)
     (var-set next-id (+ id u1))
     ;; attention: escrow can only own one name at a time
-    (match (contract-call? 'SP000000000000000000002Q6VF78.bns name-transfer  namespace name (as-contract tx-sender) (some zonefile-hash))
+    (match (contract-call? 'SP000000000000000000002Q6VF78.bns name-transfer namespace name (as-contract tx-sender) (some (get zonefile-hash name-props)))
       success (ok id)
-      error (err (* error u1000)))))
+      error (err (* (to-uint error) u1000)))))
 
 ;; any user can cancle the swap after the expiry period
 (define-public (cancel (id uint))
@@ -39,7 +39,10 @@
     (asserts! (< (+ (get when swap) expiry) block-height) ERR_TOO_EARLY)
     (asserts! (is-eq (get done swap) u0) ERR_ALREADY_DONE)
     (asserts! (map-set swaps id (merge swap {done: u1})) ERR_NATIVE_FAILURE)
-    (as-contract (contract-call? 'SP000000000000000000002Q6VF78.bns name-transfer (get namespace swap) (get name swap) (get bns-sender swap) (some (get zonefile-hash swap))))))
+    (match (as-contract (contract-call? 'SP000000000000000000002Q6VF78.bns name-transfer (get namespace swap) (get name swap) (get bns-sender swap) (some (get zonefile-hash swap))))
+      success (ok success)
+      error (err (* (to-uint error) u1000)))))
+
 
 ;; any user can submit a tx that contains the swap
 (define-public (submit-swap
@@ -63,7 +66,9 @@
             out (if (>= (get value out) (get sats swap))
               (begin
                     (asserts! (map-set swaps id (merge swap {done: u1})) ERR_NATIVE_FAILURE)
-                    (as-contract (contract-call? 'SP000000000000000000002Q6VF78.bns name-transfer (get namespace swap) (get name swap) (get bns-receiver swap) none)))
+                    (match (as-contract (contract-call? 'SP000000000000000000002Q6VF78.bns name-transfer (get namespace swap) (get name swap) (get bns-receiver swap) none))
+                      transfer-success (ok transfer-success)
+                      transfer-error (err (* (to-uint transfer-error) u1000))))
               ERR_TX_VALUE_TOO_SMALL)
            ERR_TX_NOT_FOR_RECEIVER))
       error (err (* error u1000)))))
