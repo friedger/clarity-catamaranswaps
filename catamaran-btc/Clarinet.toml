@@ -1,6 +1,9 @@
 
 [project]
 name = "catamaranswaps"
+description = ''
+authors = ["friedger"]
+telemetry = false
 
 requirements = [
     { contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard" },
