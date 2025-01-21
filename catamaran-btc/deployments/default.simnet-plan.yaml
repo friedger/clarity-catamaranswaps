@@ -123,21 +123,21 @@ plan:
       transactions: []
       epoch: "2.1"
     - id: 10
+      transactions: []
+      epoch: "2.1"
+    - id: 11
+      transactions: []
+      epoch: "2.1"
+    - id: 12
+      transactions: []
+      epoch: "2.1"
+    - id: 13
       transactions:
         - emulated-contract-publish:
             contract-name: clarity-bitcoin-lib-v5
             emulated-sender: SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9
             path: ".cache/requirements/SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-lib-v5.clar"
             clarity-version: 2
-      epoch: "2.4"
-    - id: 11
-      transactions: []
-      epoch: "2.4"
-    - id: 12
-      transactions: []
-      epoch: "2.4"
-    - id: 13
-      transactions: []
       epoch: "2.4"
     - id: 14
       transactions: []
@@ -155,6 +155,24 @@ plan:
       transactions: []
       epoch: "2.4"
     - id: 19
+      transactions: []
+      epoch: "2.4"
+    - id: 20
+      transactions: []
+      epoch: "2.4"
+    - id: 21
+      transactions: []
+      epoch: "2.4"
+    - id: 22
+      transactions: []
+      epoch: "2.4"
+    - id: 23
+      transactions: []
+      epoch: "2.4"
+    - id: 24
+      transactions: []
+      epoch: "2.4"
+    - id: 25
       transactions:
         - emulated-contract-publish:
             contract-name: clarity-bitcoin-helper-wtx
@@ -167,24 +185,6 @@ plan:
             path: contracts/btc-stx-swap.clar
             clarity-version: 2
       epoch: "2.5"
-    - id: 20
-      transactions: []
-      epoch: "2.5"
-    - id: 21
-      transactions: []
-      epoch: "2.5"
-    - id: 22
-      transactions: []
-      epoch: "2.5"
-    - id: 23
-      transactions: []
-      epoch: "2.5"
-    - id: 24
-      transactions: []
-      epoch: "2.5"
-    - id: 25
-      transactions: []
-      epoch: "2.5"
     - id: 26
       transactions: []
       epoch: "2.5"
@@ -192,6 +192,33 @@ plan:
       transactions: []
       epoch: "2.5"
     - id: 28
+      transactions: []
+      epoch: "2.5"
+    - id: 29
+      transactions: []
+      epoch: "2.5"
+    - id: 30
+      transactions: []
+      epoch: "2.5"
+    - id: 31
+      transactions: []
+      epoch: "2.5"
+    - id: 32
+      transactions: []
+      epoch: "2.5"
+    - id: 33
+      transactions: []
+      epoch: "2.5"
+    - id: 34
+      transactions: []
+      epoch: "2.5"
+    - id: 35
+      transactions: []
+      epoch: "2.5"
+    - id: 36
+      transactions: []
+      epoch: "2.5"
+    - id: 37
       transactions:
         - emulated-contract-publish:
             contract-name: sbtc-registry
@@ -229,27 +256,36 @@ plan:
             path: contracts/init/init-sbtc.clar
             clarity-version: 3
       epoch: "3.0"
-    - id: 29
+    - id: 38
       transactions: []
       epoch: "3.0"
-    - id: 30
+    - id: 39
       transactions: []
       epoch: "3.0"
-    - id: 31
+    - id: 40
       transactions: []
       epoch: "3.0"
-    - id: 32
+    - id: 41
       transactions: []
       epoch: "3.0"
-    - id: 33
+    - id: 42
       transactions: []
       epoch: "3.0"
-    - id: 34
+    - id: 43
       transactions: []
       epoch: "3.0"
-    - id: 35
+    - id: 44
       transactions: []
       epoch: "3.0"
-    - id: 36
+    - id: 45
+      transactions: []
+      epoch: "3.0"
+    - id: 46
+      transactions: []
+      epoch: "3.0"
+    - id: 47
+      transactions: []
+      epoch: "3.0"
+    - id: 48
       transactions: []
       epoch: "3.0"
