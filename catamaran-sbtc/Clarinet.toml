@@ -1,0 +1,37 @@
+
+[project]
+name = "catamaran-btc"
+description = ''
+authors = ["friedger"]
+telemetry = false
+
+requirements = [
+    { contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard" },
+    { contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-lib-v5" },
+    { contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-helper" },
+    { contract_id = "SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token" },
+    { contract_id = "SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-bootstrap-signers" },
+    { contract_id = "SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-deposit" },
+    { contract_id = "SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-withdrawal" },
+]
+
+[contracts.clarity-bitcoin-helper-wtx]
+path = "contracts/clarity-bitcoin-helper-wtx.clar"
+depends_on = []
+epoch = "2.5"
+clarity = 2
+
+
+[contracts.btc-sbtc-swap]
+path = "contracts/btc-sbtc-swap.clar"
+depends_on = []
+epoch = "3.0"
+clarity = 3
+
+
+[repl.remote_data]
+enabled = true
+api_url = "https://api.hiro.so"
+initial_height = 574470
+
+[notebooks]

@@ -1,12 +1,19 @@
 # clarity-catamaranswaps
+
 Smart contracts for swapping assets on Stacks and Bitcoin
+
+## catamaran-sbtc
+
+BTC-sBTC swap
+
+## [WIP] catamaran-btc
+
+BTC-STX swap
 
 ## atomic-stx-ft
 
 ## atomic-stx-nft
 
-## catamaran-btc
-BTC-STX swap
-
 ## friedger-token
+
 ## [WIP] atomic-mia-ft
