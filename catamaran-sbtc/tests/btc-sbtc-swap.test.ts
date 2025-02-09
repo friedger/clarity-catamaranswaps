@@ -8,12 +8,6 @@ import { filterEvents, rov, txErr, txOk } from "@clarigen/test";
 import { describe, expect, test } from "vitest";
 import { accounts, project } from "../src/clarigen-types"; // where your [types.output] was specified
 import { createSwap, mineSbtc, swapAmount } from "./sbtc-helper";
-import { sha256 } from "@noble/hashes/sha2";
-import {
-  bufferCV,
-  bufferCVFromString,
-  serializeCV,
-} from "@stacks/transactions";
 
 const alice = accounts.wallet_1.address;
 const bob = accounts.wallet_2.address;
@@ -149,11 +143,7 @@ describe("User can cancel btc-sbtc swap", () => {
 
     const bchh = rov(clarityBitcoinLibV5.getBcHHash(validBlock.height));
     console.log("bchh", bchh ? bytesToHex(bchh) : "null");
-
-    const blockHeaderHash = hexToBytes(
-      "44fc864fe70a66fd161f6140ff96930690950d30efc2f8d12000000000000000"
-    ).reverse();
-
+    
     // try to submit btc tx by alice
     const submissionByAlice = txErr(
       btcSbtcSwap.submitSwap(

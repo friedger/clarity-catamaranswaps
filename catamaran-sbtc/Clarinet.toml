@@ -32,6 +32,6 @@ clarity = 3
 [repl.remote_data]
 enabled = true
 api_url = "https://api.hiro.so"
-initial_height = 574470
+initial_height = 586955
 
 [notebooks]

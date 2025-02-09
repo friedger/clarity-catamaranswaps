@@ -1,5 +1,5 @@
 {
-  "name": "catamaran-btc-tests",
+  "name": "catamaran-sbtc-tests",
   "version": "1.0.0",
   "description": "Run unit tests on this project.",
   "type": "module",
@@ -8,8 +8,6 @@
     "test": "vitest run",
     "test:report": "vitest run -- --coverage --costs",
     "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\"",
-    "rv:test": "rv . btc-sbtc-swap test",
-    "rv:invariant": "rv . btc-sbtc-swap invariant",
     "generate:types": "clarigen"
   },
   "author": "",
@@ -20,15 +18,21 @@
     "@clarigen/test": "^2.1.2",
     "@hirosystems/clarinet-sdk": "2.13.0-beta17",
     "@noble/hashes": "^1.7.1",
-    "@stacks/rendezvous": "^0.4.0",
-    "@stacks/transactions": "^7.0.4",
+    "@stacks/transactions": "6.17.0",
+    "bitcoin-tx-proof": "^1.0.0",
     "chokidar-cli": "^3.0.0",
     "typescript": "^5.3.3",
     "vite": "^6.1.0",
-    "vitest": "^3.0.5",
+    "vitest": "1.6.0",
     "vitest-environment-clarinet": "^2.1.0"
   },
   "engines": {
     "node": "22.13"
+  },
+  "pnpm": {
+    "overrides": {
+      "@hirosystems/clarinet-sdk": "2.13.0-beta17",
+      "@hirosystems/clarinet-sdk-wasm": "2.13.0-beta17"
+    }
   }
 }
