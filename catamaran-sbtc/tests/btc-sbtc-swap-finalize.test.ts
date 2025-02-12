@@ -3,9 +3,10 @@ import { txOk } from "@clarigen/test";
 import { describe, expect, test } from "vitest";
 import { accounts, project } from "../src/clarigen-types"; // where your [types.output] was specified
 import { createSwap, mineSbtc } from "./sbtc-helper";
-import { hexToBytes } from "@noble/hashes/utils";
+import { bytesToHex, hexToBytes } from "@noble/hashes/utils";
 import { BitcoinRPCConfig, bitcoinTxProof } from "bitcoin-tx-proof";
 import { BitcoinRPC } from "bitcoin-tx-proof/dist/rpc";
+import { BaseSequencer } from "vitest/node.js";
 
 const alice = accounts.wallet_1.address;
 const bob = accounts.wallet_2.address;
@@ -20,28 +21,43 @@ const btcRPCConfig: BitcoinRPCConfig = {
 const btcRPC = new BitcoinRPC(btcRPCConfig);
 
 describe("User can finalize btc-sbtc swap", () => {
-  test("that Bob can complete Alice' swap", async () => {
+  test("that Bob can complete Alice' swap using a legacy btc tx", async () => {
     mineSbtc(alice);
-    const requestId = createSwap(alice, bob);
+    const swapAmount = 10000;
+    const requestId = txOk(
+      btcSbtcSwap.createSwap(
+        swapAmount,
+        hexToBytes("76a9147bb1218a48c58c35c3537e6560e804023ee7310688ac"),
+        swapAmount,
+        bob,
+        1000
+      ),
+      alice
+    ).value;
     console.log(requestId);
 
     const txid =
-      "bd725ba1fc3be138d2d62cd3ec4c7f55e2e33811ee1e5dbffd44e91686a233f3";
-
+      "f5a993361e1db33c3b2323e39eda6c8ee70bc08da1429d0a2f81063751e55c73";
+    const blockHeight = 883230;
     // create proof
     // Get proof for a transaction
-    const proof = await bitcoinTxProof(
-      txid,
-      883016, // block height
-      btcRPCConfig
-    );
+    const proof = await bitcoinTxProof(txid, blockHeight, btcRPCConfig);
 
     console.log(proof);
 
     // get transaction object
-    const txObject = await btcRPC.call("gettransactions", [txid]);
+    const blockHash = await btcRPC.call("getblockhash", [blockHeight]);
+    const txObject = await btcRPC.call("getrawtransaction", [
+      txid,
+      true,
+      blockHash,
+    ]);
 
-    console.log(txObject);
+    console.log(txObject.vin);
+    console.log(txObject.vout);
+
+    // split proof.witnessMerkleProof into chunks of 64 chars
+    const hashes = proof.witnessMerkleProof.match(/.{1,64}/g) || [];
 
     // submit btc tx by bob
     const submission = txOk(
@@ -49,10 +65,30 @@ describe("User can finalize btc-sbtc swap", () => {
         requestId,
         proof.blockHeight,
         hexToBytes(proof.blockHeader),
-        txObject as any,
-        proof
+        {
+          version: txObject.version,
+          locktime: txObject.locktime,
+          ins: txObject.vin.map((input: any) => {
+            return {
+              outpoint: { hash: hexToBytes(input.txid), index: input.vout },
+              scriptSig: hexToBytes(input.scriptSig.hex),
+              sequence: input.sequence,
+            };
+          }),
+          outs: txObject.vout.map((output: any) => {
+            return {
+              value: output.value * 100_000_000,
+              scriptPubKey: hexToBytes(output.scriptPubKey.hex),
+            };
+          }),
+        },
+        {
+          txIndex: proof.txIndex,
+          hashes: hashes.map(hexToBytes),
+          treeDepth: proof.merkleProofDepth,
+        }
       ),
-      alice
+      bob
     );
 
     console.log(submission);

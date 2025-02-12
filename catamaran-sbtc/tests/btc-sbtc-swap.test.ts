@@ -143,7 +143,7 @@ describe("User can cancel btc-sbtc swap", () => {
 
     const bchh = rov(clarityBitcoinLibV5.getBcHHash(validBlock.height));
     console.log("bchh", bchh ? bytesToHex(bchh) : "null");
-    
+
     // try to submit btc tx by alice
     const submissionByAlice = txErr(
       btcSbtcSwap.submitSwap(
