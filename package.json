@@ -4,5 +4,6 @@
   "description": "",
   "keywords": [],
   "author": "",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.4.0"
 }
