@@ -1,14 +1,8 @@
 {
-  "name": "clarity-catamaran",
+  "name": "clarity-catamaranswaps",
   "version": "1.0.0",
-  "description": "Run unit tests on this project.",
-  "type": "module",
-  "private": true,
+  "description": "",
+  "keywords": [],
   "author": "",
-  "license": "MIT",
-  "packageManager": "pnpm@10.4.0",
-  "engines": {
-    "node": "22.13",
-    "pnpm": "10"
-  }
+  "license": "GPL-3.0"
 }
