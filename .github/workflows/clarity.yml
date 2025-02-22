@@ -25,7 +25,17 @@ jobs:
         with:
           entrypoint: "bash"
           args: -c "cd catamaran-sbtc && CLARINET_DISABLE_HINTS=1 clarinet check"
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13
+          cache: "pnpm"
       - name: "pnpm test"
+        working-directory: ./catamaran-sbtc
         run: |
-          cd catamaran-sbtc
+          pnpm install
           pnpm test
