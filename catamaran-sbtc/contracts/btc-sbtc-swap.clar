@@ -11,10 +11,14 @@
 (define-constant ERR_NATIVE_FAILURE (err u99))
 
 (define-constant expiry u100)
-(define-map swaps uint {sats: uint, btc-receiver: (buff 40), ustx: uint, stx-receiver: (optional principal), stx-sender: principal, when: uint, done: bool, premium: uint})
+(define-map swaps uint {sats: uint, btc-receiver: (buff 40), amount: uint, stx-receiver: (optional principal), sbtc-sender: principal, when: uint, done: bool, premium: uint})
 (define-data-var next-id uint u0)
 ;; map between accepted btc txs and swap id
 (define-map submitted-btc-txs (buff 128) uint)
+
+(define-private (sbtc-transfer (amount uint) (sender principal) (recipient principal))
+  (contract-call? 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token transfer amount sender recipient none))
+
 
 (define-read-only (read-uint32 (ctx { txbuff: (buff 4096), index: uint}))
 		(let ((data (get txbuff ctx))
@@ -38,13 +42,13 @@
     (ok (fold find-out (get outs tx) {pubscriptkey: pubscriptkey, out: none})))
 
 ;; create a swap between btc and stx
-(define-public (create-swap (sats uint) (btc-receiver (buff 40)) (ustx uint) (stx-receiver (optional principal)) (premium uint))
+(define-public (create-swap (sats uint) (btc-receiver (buff 40)) (amount uint) (stx-receiver (optional principal)) (premium uint))
   (let ((id (var-get next-id)))
     (asserts! (map-insert swaps id
-      {sats: sats, btc-receiver: btc-receiver, ustx: ustx, stx-receiver: stx-receiver,
-        stx-sender: tx-sender, when: burn-block-height, done: false, premium: premium}) ERR_INVALID_ID)
+      {sats: sats, btc-receiver: btc-receiver, amount: amount, stx-receiver: stx-receiver,
+        sbtc-sender: tx-sender, when: burn-block-height, done: false, premium: premium}) ERR_INVALID_ID)
     (var-set next-id (+ id u1))
-    (match (stx-transfer? ustx tx-sender (as-contract tx-sender))
+    (match (sbtc-transfer amount tx-sender (as-contract tx-sender))
       success (ok id)
       error (err (* error u1000)))))
 
@@ -53,20 +57,20 @@
     (premium (get premium swap)))
     (asserts! (is-none (get stx-receiver swap)) ERR_ALREADY_DONE)
     (and (> premium u0))
-      (try! (stx-transfer? premium tx-sender (get stx-sender swap)))
+      (try! (sbtc-transfer premium tx-sender (get sbtc-sender swap)))
     (ok (map-set swaps id (merge swap {stx-receiver: (some tx-sender), when: burn-block-height})))))
 
 ;; any user can cancle the swap after the expiry period
-;; stx-sender can cancle it before if the stx-receiver was not yet set
+;; sbtc-sender can cancle it before if the stx-receiver was not yet set
 (define-public (cancel (id uint))
   (let ((swap (unwrap! (map-get? swaps id) ERR_INVALID_ID)))
     (asserts!
       (or
-        (and (is-none (get stx-receiver swap)) (is-eq tx-sender (get stx-sender swap)))
+        (and (is-none (get stx-receiver swap)) (is-eq tx-sender (get sbtc-sender swap)))
         (< (+ (get when swap) expiry) burn-block-height)) ERR_FORBIDDEN)
     (asserts! (not (get done swap)) ERR_ALREADY_DONE)
     (map-set swaps id (merge swap {done: true}))
-    (as-contract (stx-transfer? (get ustx swap) tx-sender (get stx-sender swap)))))
+    (as-contract (sbtc-transfer (get amount swap) tx-sender (get sbtc-sender swap)))))
 
 ;; any user can submit a tx that contains the swap
 (define-public (submit-swap
@@ -95,7 +99,7 @@
                 (begin
                       (map-set swaps id (merge swap {done: true}))
                       (map-set submitted-btc-txs result id)
-                      (as-contract (stx-transfer? (get ustx swap) tx-sender (unwrap! (get stx-receiver swap) ERR_NO_STX_RECEIVER))))
+                      (as-contract (stx-transfer? (get amount swap) tx-sender (unwrap! (get stx-receiver swap) ERR_NO_STX_RECEIVER))))
                 ERR_TX_VALUE_TOO_SMALL)
             ERR_TX_NOT_FOR_RECEIVER))
         error (err (* error u1000)))))
@@ -132,7 +136,7 @@
                 (begin
                       (map-set swaps id (merge swap {done: true}))
                       (map-set submitted-btc-txs result id)
-                      (as-contract (stx-transfer? (get ustx swap) tx-sender (unwrap! (get stx-receiver swap) ERR_NO_STX_RECEIVER))))
+                      (as-contract (stx-transfer? (get amount swap) tx-sender (unwrap! (get stx-receiver swap) ERR_NO_STX_RECEIVER))))
                 ERR_TX_VALUE_TOO_SMALL)
             ERR_TX_NOT_FOR_RECEIVER))
         error (err (* error u1000)))))

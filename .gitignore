@@ -1,6 +1,7 @@
 **/settings/Mainnet.toml
 **/settings/Testnet.toml
 **/history.txt
+.cache
 scraps.txt
 cvm/vmstate.db
 .DS_Store
