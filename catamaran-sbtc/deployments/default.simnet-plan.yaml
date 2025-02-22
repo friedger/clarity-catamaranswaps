@@ -53,10 +53,7 @@ plan:
             contract-name: clarity-bitcoin-helper-wtx
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/clarity-bitcoin-helper-wtx.clar
-            clarity-version: 2
-      epoch: "2.5"
-    - id: 1
-      transactions:
+            clarity-version: 3
         - emulated-contract-publish:
             contract-name: btc-sbtc-swap
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
