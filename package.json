@@ -1,0 +1,14 @@
+{
+  "name": "clarity-catamaran",
+  "version": "1.0.0",
+  "description": "Run unit tests on this project.",
+  "type": "module",
+  "private": true,
+  "author": "",
+  "license": "MIT",
+  "packageManager": "pnpm@10.4.0",
+  "engines": {
+    "node": "22.13",
+    "pnpm": "10"
+  }
+}
