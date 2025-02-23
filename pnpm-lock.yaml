@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@hirosystems/clarinet-sdk': 2.14.0
+  '@hirosystems/clarinet-sdk-wasm': 2.14.0
+
 importers:
 
   .: {}
@@ -18,7 +22,7 @@ importers:
         version: 2.1.2
       '@clarigen/test':
         specifier: ^2.1.2
-        version: 2.1.2(@types/node@22.13.5)
+        version: 2.1.2(@types/node@22.13.5)(yaml@2.7.0)
       '@hirosystems/clarinet-sdk':
         specifier: 2.14.0
         version: 2.14.0(@types/node@22.13.5)(yaml@2.7.0)
@@ -29,14 +33,14 @@ importers:
         specifier: ^1.7.1
         version: 1.7.1
       '@stacks/common':
-        specifier: ^7.0.2
-        version: 7.0.2
+        specifier: ^6.16.0
+        version: 6.16.0
       '@stacks/transactions':
-        specifier: 7.0.4
-        version: 7.0.4
+        specifier: 6.17.0
+        version: 6.17.0
       bitcoin-tx-proof:
-        specifier: git://github.com/friedger/bitcoin-tx-proof.git#4394d22
-        version: https://codeload.github.com/friedger/bitcoin-tx-proof/tar.gz/4394d22
+        specifier: github:friedger/bitcoin-tx-proof#4394d22e6bffc1b7a7d3b9f2af5a1e37bfbea595
+        version: https://codeload.github.com/friedger/bitcoin-tx-proof/tar.gz/4394d22e6bffc1b7a7d3b9f2af5a1e37bfbea595
       chokidar-cli:
         specifier: ^3.0.0
         version: 3.0.0
@@ -363,16 +367,8 @@ packages:
   '@hirosystems/clarinet-sdk-wasm@2.14.0':
     resolution: {integrity: sha512-8201WGhG8fXkIPza0XyKua0Nrg8AWRgtkHpz5AWtnycYrG9wQTfnj7CIg/UE06KBou5cQp0b2NVwOxgH3hteAA==}
 
-  '@hirosystems/clarinet-sdk-wasm@2.8.0':
-    resolution: {integrity: sha512-Lkr7YHzirierK50fTKTtVpXUvvUfPT+U70bDzB+13oK3NUtWG18zq6JNQ5A2NLWniU/szPJ4M9C63ba7+U091Q==}
-
   '@hirosystems/clarinet-sdk@2.14.0':
     resolution: {integrity: sha512-DNIGDIC1kVh0mjBPeIpFdDh+I3+k1nwsED5CCZCnj5d1W+vTWSiREUZLhouq85NahH8j+BPzPZyTEGYbGpocjg==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
-
-  '@hirosystems/clarinet-sdk@2.8.0':
-    resolution: {integrity: sha512-/xxct6Q+TB+WoD/Qc/Y4Oq4vgLybs4EmBWdqmVl7P9ocUxt39qTXpWHUg/AdprCtWHTe4WywmrNAiMHbf6Bc9w==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -506,14 +502,8 @@ packages:
   '@stacks/common@6.16.0':
     resolution: {integrity: sha512-PnzvhrdGRMVZvxTulitlYafSK4l02gPCBBoI9QEoTqgSnv62oaOXhYAUUkTMFKxdHW1seVEwZsrahuXiZPIAwg==}
 
-  '@stacks/common@7.0.2':
-    resolution: {integrity: sha512-+RSecHdkxOtswmE4tDDoZlYEuULpnTQVeDIG5eZ32opK8cFxf4EugAcK9CsIsHx/Se1yTEaQ21WGATmJGK84lQ==}
-
   '@stacks/network@6.17.0':
     resolution: {integrity: sha512-numHbfKjwco/rbkGPOEz8+FcJ2nBnS/tdJ8R422Q70h3SiA9eqk9RjSzB8p4JP8yW1SZvW+eihADHfMpBuZyfw==}
-
-  '@stacks/network@7.0.2':
-    resolution: {integrity: sha512-XzHnoWqku/jRrTgMXhmh3c+I0O9vDH24KlhzGDZtBu+8CGGyHNPAZzGwvoUShonMXrXjEnfO9IYQwV5aJhfv6g==}
 
   '@stacks/stacks-blockchain-api-types@7.10.0':
     resolution: {integrity: sha512-LfDishvEsmDJ6OXfgohkOIIsLTwvKVn3NKELaWTaZndN2Pucsk3Uz8NPDhVM5Ij1rGjFGT2bwcHNoGE7k3GhxQ==}
@@ -526,9 +516,6 @@ packages:
 
   '@stacks/transactions@6.17.0':
     resolution: {integrity: sha512-FUah2BRgV66ApLcEXGNGhwyFTRXqX5Zco3LpiM3essw8PF0NQlHwwdPgtDko5RfrJl3LhGXXe/30nwsfNnB3+g==}
-
-  '@stacks/transactions@7.0.4':
-    resolution: {integrity: sha512-OTQSqb+xaq+QeHB1m83SONVjVs9DD1SMqX7UvvLmzQx3ppZNoRqbWx9UGjm1bVwpQ+mw44TVOe7w3Zm0HRYFfw==}
 
   '@types/bn.js@5.1.6':
     resolution: {integrity: sha512-Xh8vSwUeMKeYYrj3cX4lGQgFSF/N03r+tv4AiLl1SucqV+uTQpxRcnM8AkXKHwYP9ZPXOYXRr2KPXpVlIvqh9w==}
@@ -669,8 +656,8 @@ packages:
     resolution: {integrity: sha512-mdFV5+/v0XyNYXjBS6CQPLo9ekCx4gtKZFnJm5PMto7Fs9hTTDpkkzOB7/FtluRI6JbUUAu+snTYfJRgHLZbZQ==}
     engines: {node: '>=8.0.0'}
 
-  bitcoin-tx-proof@https://codeload.github.com/friedger/bitcoin-tx-proof/tar.gz/4394d22:
-    resolution: {tarball: https://codeload.github.com/friedger/bitcoin-tx-proof/tar.gz/4394d22}
+  bitcoin-tx-proof@https://codeload.github.com/friedger/bitcoin-tx-proof/tar.gz/4394d22e6bffc1b7a7d3b9f2af5a1e37bfbea595:
+    resolution: {tarball: https://codeload.github.com/friedger/bitcoin-tx-proof/tar.gz/4394d22e6bffc1b7a7d3b9f2af5a1e37bfbea595}
     version: 1.0.0
     hasBin: true
 
@@ -1558,7 +1545,7 @@ packages:
   vitest-environment-clarinet@2.3.0:
     resolution: {integrity: sha512-SZLrQZ9CFzTIes54a2Sw1ijOa718yyFIEAd38IbpfHZL2gY8nwM/IqKsjCrVCcrD9+/hO83V0fTJoFqZR1262Q==}
     peerDependencies:
-      '@hirosystems/clarinet-sdk': '>=2.14.0'
+      '@hirosystems/clarinet-sdk': 2.14.0
       vitest: ^1.0.0 || ^2.0.0 || ^3.0.0
 
   vitest@1.6.0:
@@ -1713,8 +1700,8 @@ snapshots:
     dependencies:
       '@antfu/ni': 0.21.12
       '@clarigen/core': 2.1.2
-      '@hirosystems/clarinet-sdk': 2.8.0(@types/node@22.13.5)
-      '@hirosystems/clarinet-sdk-wasm': 2.8.0
+      '@hirosystems/clarinet-sdk': 2.14.0(@types/node@22.13.5)(yaml@2.7.0)
+      '@hirosystems/clarinet-sdk-wasm': 2.14.0
       '@iarna/toml': 2.2.5
       '@stacks/transactions': 6.13.1
       chokidar: 3.6.0
@@ -1728,21 +1715,25 @@ snapshots:
       zod: 3.24.2
     transitivePeerDependencies:
       - '@edge-runtime/vm'
+      - '@types/debug'
       - '@types/node'
       - '@vitest/browser'
       - '@vitest/ui'
       - bufferutil
       - encoding
       - happy-dom
+      - jiti
       - jsdom
       - less
       - lightningcss
+      - msw
       - sass
       - sass-embedded
       - stylus
       - sugarss
       - supports-color
       - terser
+      - tsx
       - typanion
       - utf-8-validate
 
@@ -1760,30 +1751,35 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@clarigen/test@2.1.2(@types/node@22.13.5)':
+  '@clarigen/test@2.1.2(@types/node@22.13.5)(yaml@2.7.0)':
     dependencies:
       '@clarigen/core': 2.1.2
-      '@hirosystems/clarinet-sdk': 2.8.0(@types/node@22.13.5)
-      '@hirosystems/clarinet-sdk-wasm': 2.8.0
+      '@hirosystems/clarinet-sdk': 2.14.0(@types/node@22.13.5)(yaml@2.7.0)
+      '@hirosystems/clarinet-sdk-wasm': 2.14.0
       '@stacks/transactions': 6.13.0
     transitivePeerDependencies:
       - '@edge-runtime/vm'
+      - '@types/debug'
       - '@types/node'
       - '@vitest/browser'
       - '@vitest/ui'
       - bufferutil
       - encoding
       - happy-dom
+      - jiti
       - jsdom
       - less
       - lightningcss
+      - msw
       - sass
       - sass-embedded
       - stylus
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
+      - yaml
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
@@ -1931,8 +1927,6 @@ snapshots:
 
   '@hirosystems/clarinet-sdk-wasm@2.14.0': {}
 
-  '@hirosystems/clarinet-sdk-wasm@2.8.0': {}
-
   '@hirosystems/clarinet-sdk@2.14.0(@types/node@22.13.5)(yaml@2.7.0)':
     dependencies:
       '@hirosystems/clarinet-sdk-wasm': 2.14.0
@@ -1962,31 +1956,6 @@ snapshots:
       - terser
       - tsx
       - yaml
-
-  '@hirosystems/clarinet-sdk@2.8.0(@types/node@22.13.5)':
-    dependencies:
-      '@hirosystems/clarinet-sdk-wasm': 2.14.0
-      '@stacks/transactions': 6.13.1
-      kolorist: 1.8.0
-      prompts: 2.4.2
-      vitest: 1.6.0(@types/node@22.13.5)
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/node'
-      - '@vitest/browser'
-      - '@vitest/ui'
-      - encoding
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
 
   '@iarna/toml@2.2.5': {}
 
@@ -2085,18 +2054,9 @@ snapshots:
       '@types/bn.js': 5.1.6
       '@types/node': 18.19.76
 
-  '@stacks/common@7.0.2': {}
-
   '@stacks/network@6.17.0':
     dependencies:
       '@stacks/common': 6.16.0
-      cross-fetch: 3.2.0
-    transitivePeerDependencies:
-      - encoding
-
-  '@stacks/network@7.0.2':
-    dependencies:
-      '@stacks/common': 7.0.2
       cross-fetch: 3.2.0
     transitivePeerDependencies:
       - encoding
@@ -2136,20 +2096,9 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@stacks/transactions@7.0.4':
-    dependencies:
-      '@noble/hashes': 1.1.5
-      '@noble/secp256k1': 1.7.1
-      '@stacks/common': 7.0.2
-      '@stacks/network': 7.0.2
-      c32check: 2.0.0
-      lodash.clonedeep: 4.5.0
-    transitivePeerDependencies:
-      - encoding
-
   '@types/bn.js@5.1.6':
     dependencies:
-      '@types/node': 18.19.76
+      '@types/node': 22.13.5
 
   '@types/estree@1.0.6': {}
 
@@ -2295,7 +2244,7 @@ snapshots:
 
   bip174@2.1.1: {}
 
-  bitcoin-tx-proof@https://codeload.github.com/friedger/bitcoin-tx-proof/tar.gz/4394d22:
+  bitcoin-tx-proof@https://codeload.github.com/friedger/bitcoin-tx-proof/tar.gz/4394d22e6bffc1b7a7d3b9f2af5a1e37bfbea595:
     dependencies:
       axios: 1.7.9
       axios-rate-limit: 1.4.0(axios@1.7.9)

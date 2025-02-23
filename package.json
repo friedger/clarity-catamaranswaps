@@ -5,5 +5,12 @@
   "keywords": [],
   "author": "",
   "license": "GPL-3.0",
-  "packageManager": "pnpm@10.4.0"
+  "packageManager": "pnpm@10.4.0",
+  "pnpm": {
+    "overrides": {
+      "@hirosystems/clarinet-sdk": "2.14.0",
+      "@hirosystems/clarinet-sdk-wasm": "2.14.0",
+      "@stacks/common": "7.0.2"
+    }
+  }
 }
