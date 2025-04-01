@@ -1,21 +1,19 @@
 import { projectFactory } from "@clarigen/core";
-import { rov, txOk } from "@clarigen/test";
-import { describe, expect, test } from "vitest";
-import { accounts, project } from "../src/clarigen-types"; // where your [types.output] was specified
-import { createSwap, mineSbtc } from "./sbtc-helper";
+import { txOk } from "@clarigen/test";
 import { bytesToHex, hexToBytes } from "@noble/hashes/utils";
-import { BitcoinRPCConfig, bitcoinTxProof } from "bitcoin-tx-proof";
-import { BitcoinRPC } from "bitcoin-tx-proof/dist/rpc";
-import { BaseSequencer } from "vitest/node.js";
 import { intToBytes } from "@stacks/common";
 import { Cl, cvToString, SomeCV } from "@stacks/transactions";
-import { sha256 } from "@noble/hashes/sha256";
+import { BitcoinRPCConfig } from "bitcoin-tx-proof";
+import { BitcoinRPC } from "bitcoin-tx-proof/dist/rpc";
+import { describe, expect, test } from "vitest";
+import { accounts, project } from "../src/clarigen-types"; // where your [types.output] was specified
+import { mineSbtc } from "./sbtc-helper";
 
 const alice = accounts.wallet_1.address;
 const bob = accounts.wallet_2.address;
 const charlie = accounts.wallet_3.address;
 
-const { btcSbtcSwap, clarityBitcoinLibV5 } = projectFactory(project, "simnet");
+const { btcSbtcSwap } = projectFactory(project, "simnet");
 
 const btcRPCConfig: BitcoinRPCConfig = {
   url: "http://localhost:8332",
@@ -29,6 +27,20 @@ describe("User can finalize btc-sbtc swap", () => {
   const blockHeight = 883230;
   const bitcoinBlockHeaderHash =
     "00000000000000000001c55626b85b4b3ecb33f67645356a2b01f4dfba893679";
+
+  // https://mempool.space/api/block/00000000000000000001c55626b85b4b3ecb33f67645356a2b01f4dfba893679/header
+  const headerHex =
+    "040060208c8b71956e408769453d40275830b83856bc0d8afaf60000000000000000000069167b97329b04d11aea35a48fbfc00af71c9750c4526d024dbb97158793eac31379aa672677021707a18259";
+
+  test("Ensure that remote data is as expected", () => {
+    const bbh = simnet.execute("burn-block-height");
+    expect(bbh.result).toBeUint(blockHeight);
+
+    var bbhh = simnet.execute(
+      "(get-burn-block-info? header-hash burn-block-height)"
+    );
+    expect(bbhh.result).toBeSome(Cl.bufferFromHex(bitcoinBlockHeaderHash));
+  });
 
   test("Ensure that remote data is as expected", () => {
     // the simnet burn-block-height can change depending on the contracts deployed
@@ -83,12 +95,6 @@ describe("User can finalize btc-sbtc swap", () => {
       pos: 6,
     };
 
-    // create proof
-    // Get proof for a transaction
-    //const proof = await bitcoinTxProof(txid, blockHeight, btcRPCConfig);
-
-    //console.log(proof);
-
     // get transaction object
     const blockHash = await btcRPC.call("getblockhash", [blockHeight]);
     const txObject = await btcRPC.call("getrawtransaction", [
@@ -100,9 +106,6 @@ describe("User can finalize btc-sbtc swap", () => {
     console.log(txObject.vin);
     console.log(txObject.vout);
 
-    return;
-    // split proof.witnessMerkleProof into chunks of 64 chars
-    // const hashes = (proof.witnessMerkleProof.match(/.{1,64}/g) || []).map(hexToBytes)
     const hashes = merkleProof.merkle.map(hexToBytes).map((h) => h.reverse());
 
     const tx = {
@@ -139,28 +142,17 @@ describe("User can finalize btc-sbtc swap", () => {
     );
 
     const txProof = {
-      txIndex: proof.txIndex,
+      txIndex: merkleProof.pos,
       hashes,
-      treeDepth: proof.merkleProofDepth,
+      treeDepth: hashes.length,
     };
-
-    console.log(proof.txIndex, hashes, proof.merkleProofDepth);
-    const verify = rov(
-      clarityBitcoinLibV5.wasTxMinedCompact(
-        proof.blockHeight,
-        hexToBytes(txHex),
-        hexToBytes(proof.blockHeader),
-        txProof
-      )
-    );
-    console.log("verify", verify);
 
     // submit btc tx by bob
     const submission = txOk(
       btcSbtcSwap.submitSwap(
         requestId,
-        proof.blockHeight,
-        hexToBytes(proof.blockHeader),
+        merkleProof.block_height,
+        hexToBytes(headerHex),
         tx,
         txProof
       ),

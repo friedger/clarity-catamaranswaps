@@ -11,7 +11,7 @@ requirements = [
     { contract_id = "SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token" },
 ]
 
-[contracts.clarity-bitcoin-helper-wtx]
+[contracts.bitcoin-helper-wtx-v1]
 path = "contracts/clarity-bitcoin-helper-wtx.clar"
 depends_on = []
 epoch = "3.0"

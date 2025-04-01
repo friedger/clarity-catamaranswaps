@@ -1,11 +1,10 @@
 import { projectFactory } from "@clarigen/core";
 import { rov } from "@clarigen/test";
 import { hexToBytes } from "@noble/hashes/utils";
-import { bigIntToBytes, bytesToHex, intToBytes } from "@stacks/common";
+import { bigIntToBytes, bytesToHex } from "@stacks/common";
 import { describe, expect, test } from "vitest";
 import { project } from "../src/clarigen-types"; // where your [types.output] was specified
 import { txObjects } from "./txs";
-import { cvToString } from "@stacks/transactions";
 
 const { clarityBitcoinHelperWtx, clarityBitcoinLibV5, clarityBitcoinHelper } =
   projectFactory(project, "simnet");

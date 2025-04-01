@@ -7,6 +7,7 @@ settings:
 overrides:
   '@hirosystems/clarinet-sdk': 2.14.0
   '@hirosystems/clarinet-sdk-wasm': 2.14.0
+  '@stacks/common': 7.0.2
 
 importers:
 
@@ -33,14 +34,17 @@ importers:
         specifier: ^1.7.1
         version: 1.7.1
       '@stacks/common':
-        specifier: ^6.16.0
-        version: 6.16.0
+        specifier: 7.0.2
+        version: 7.0.2
       '@stacks/transactions':
         specifier: 6.17.0
         version: 6.17.0
       bitcoin-tx-proof:
         specifier: github:friedger/bitcoin-tx-proof#4394d22e6bffc1b7a7d3b9f2af5a1e37bfbea595
         version: https://codeload.github.com/friedger/bitcoin-tx-proof/tar.gz/4394d22e6bffc1b7a7d3b9f2af5a1e37bfbea595
+      bitcoinjs-lib:
+        specifier: ^6.1.7
+        version: 6.1.7
       chokidar-cli:
         specifier: ^3.0.0
         version: 3.0.0
@@ -499,8 +503,8 @@ packages:
   '@stacks/blockchain-api-client@7.10.0':
     resolution: {integrity: sha512-VQbJDJuHrj2TWDmYE2Tymqa6yMCvNkc8SXPeHgX1k1BuNKFe7HUHv1r4wA24cRpoTSpM14URJOscKLBaDyklpg==}
 
-  '@stacks/common@6.16.0':
-    resolution: {integrity: sha512-PnzvhrdGRMVZvxTulitlYafSK4l02gPCBBoI9QEoTqgSnv62oaOXhYAUUkTMFKxdHW1seVEwZsrahuXiZPIAwg==}
+  '@stacks/common@7.0.2':
+    resolution: {integrity: sha512-+RSecHdkxOtswmE4tDDoZlYEuULpnTQVeDIG5eZ32opK8cFxf4EugAcK9CsIsHx/Se1yTEaQ21WGATmJGK84lQ==}
 
   '@stacks/network@6.17.0':
     resolution: {integrity: sha512-numHbfKjwco/rbkGPOEz8+FcJ2nBnS/tdJ8R422Q70h3SiA9eqk9RjSzB8p4JP8yW1SZvW+eihADHfMpBuZyfw==}
@@ -517,14 +521,8 @@ packages:
   '@stacks/transactions@6.17.0':
     resolution: {integrity: sha512-FUah2BRgV66ApLcEXGNGhwyFTRXqX5Zco3LpiM3essw8PF0NQlHwwdPgtDko5RfrJl3LhGXXe/30nwsfNnB3+g==}
 
-  '@types/bn.js@5.1.6':
-    resolution: {integrity: sha512-Xh8vSwUeMKeYYrj3cX4lGQgFSF/N03r+tv4AiLl1SucqV+uTQpxRcnM8AkXKHwYP9ZPXOYXRr2KPXpVlIvqh9w==}
-
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
-
-  '@types/node@18.19.76':
-    resolution: {integrity: sha512-yvR7Q9LdPz2vGpmpJX5LolrgRdWvB67MJKDPSgIIzpFbaf9a1j/f5DnLp5VDyHGMR0QZHlTr1afsD87QCXFHKw==}
 
   '@types/node@22.13.5':
     resolution: {integrity: sha512-+lTU0PxZXn0Dr1NBtC7Y8cR21AJr87dLLU953CWA6pMxxv/UDc7jYAY90upcrie1nRcD6XNG5HOYEDtgW5TxAg==}
@@ -1452,9 +1450,6 @@ packages:
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
 
-  undici-types@5.26.5:
-    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-
   undici-types@6.20.0:
     resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
@@ -1741,7 +1736,7 @@ snapshots:
     dependencies:
       '@scure/base': 1.2.4
       '@stacks/blockchain-api-client': 7.10.0
-      '@stacks/common': 6.16.0
+      '@stacks/common': 7.0.2
       '@stacks/network': 6.17.0
       '@stacks/stacks-blockchain-api-types': 7.10.0
       '@stacks/transactions': 6.13.1
@@ -2049,14 +2044,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@stacks/common@6.16.0':
-    dependencies:
-      '@types/bn.js': 5.1.6
-      '@types/node': 18.19.76
+  '@stacks/common@7.0.2': {}
 
   '@stacks/network@6.17.0':
     dependencies:
-      '@stacks/common': 6.16.0
+      '@stacks/common': 7.0.2
       cross-fetch: 3.2.0
     transitivePeerDependencies:
       - encoding
@@ -2067,7 +2059,7 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.1.5
       '@noble/secp256k1': 1.7.1
-      '@stacks/common': 6.16.0
+      '@stacks/common': 7.0.2
       '@stacks/network': 6.17.0
       c32check: 2.0.0
       lodash.clonedeep: 4.5.0
@@ -2078,7 +2070,7 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.1.5
       '@noble/secp256k1': 1.7.1
-      '@stacks/common': 6.16.0
+      '@stacks/common': 7.0.2
       '@stacks/network': 6.17.0
       c32check: 2.0.0
       lodash.clonedeep: 4.5.0
@@ -2089,22 +2081,14 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.1.5
       '@noble/secp256k1': 1.7.1
-      '@stacks/common': 6.16.0
+      '@stacks/common': 7.0.2
       '@stacks/network': 6.17.0
       c32check: 2.0.0
       lodash.clonedeep: 4.5.0
     transitivePeerDependencies:
       - encoding
 
-  '@types/bn.js@5.1.6':
-    dependencies:
-      '@types/node': 22.13.5
-
   '@types/estree@1.0.6': {}
-
-  '@types/node@18.19.76':
-    dependencies:
-      undici-types: 5.26.5
 
   '@types/node@22.13.5':
     dependencies:
@@ -3057,8 +3041,6 @@ snapshots:
   typescript@5.7.3: {}
 
   ufo@1.5.4: {}
-
-  undici-types@5.26.5: {}
 
   undici-types@6.20.0: {}
 

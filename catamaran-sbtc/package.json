@@ -22,6 +22,7 @@
     "@stacks/common": "^6.16.0",
     "@stacks/transactions": "6.17.0",
     "bitcoin-tx-proof": "github:friedger/bitcoin-tx-proof#4394d22e6bffc1b7a7d3b9f2af5a1e37bfbea595",
+    "bitcoinjs-lib": "^6.1.7",
     "chokidar-cli": "^3.0.0",
     "typescript": "^5.3.3",
     "vite": "^6.1.0",
