@@ -6,8 +6,11 @@ import { describe, expect, test } from "vitest";
 import { project } from "../src/clarigen-types"; // where your [types.output] was specified
 import { txObjects } from "./txs";
 
-const { clarityBitcoinHelperWtx, clarityBitcoinLibV5, clarityBitcoinHelper } =
-  projectFactory(project, "simnet");
+const {
+  bitcoinHelperWtxV1: clarityBitcoinHelperWtx,
+  clarityBitcoinLibV5,
+  clarityBitcoinHelper,
+} = projectFactory(project, "simnet");
 
 describe("Verify parse tx", () => {
   test("that we can parse the legacy tx (no witness data)", async () => {

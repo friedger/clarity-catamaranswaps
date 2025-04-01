@@ -6,7 +6,7 @@ import { describe, expect, test } from "vitest";
 import { project } from "../src/clarigen-types"; // where your [types.output] was specified
 import { txObjects } from "./txs";
 
-const { clarityBitcoinHelperWtx, clarityBitcoinLibV5, clarityBitcoinHelper } =
+const { bitcoinHelperWtxV1: clarityBitcoinHelperWtx, clarityBitcoinHelper } =
   projectFactory(project, "simnet");
 
 describe("Verify concat tx", () => {

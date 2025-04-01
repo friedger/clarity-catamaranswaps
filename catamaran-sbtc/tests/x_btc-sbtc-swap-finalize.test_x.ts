@@ -2,24 +2,18 @@ import { projectFactory } from "@clarigen/core";
 import { txOk } from "@clarigen/test";
 import { bytesToHex, hexToBytes } from "@noble/hashes/utils";
 import { intToBytes } from "@stacks/common";
-import { Cl, cvToString, SomeCV } from "@stacks/transactions";
+import { bufferCV, Cl, cvToString, SomeCV, uintCV } from "@stacks/transactions";
 import { BitcoinRPCConfig } from "bitcoin-tx-proof";
 import { BitcoinRPC } from "bitcoin-tx-proof/dist/rpc";
 import { describe, expect, test } from "vitest";
 import { accounts, project } from "../src/clarigen-types"; // where your [types.output] was specified
 import { mineSbtc } from "./sbtc-helper";
+import { txObjects } from "./txs";
 
 const alice = accounts.wallet_1.address;
 const bob = accounts.wallet_2.address;
-const charlie = accounts.wallet_3.address;
 
 const { btcSbtcSwap } = projectFactory(project, "simnet");
-
-const btcRPCConfig: BitcoinRPCConfig = {
-  url: "http://localhost:8332",
-};
-
-const btcRPC = new BitcoinRPC(btcRPCConfig);
 
 describe("User can finalize btc-sbtc swap", () => {
   const txid =
@@ -32,7 +26,7 @@ describe("User can finalize btc-sbtc swap", () => {
   const headerHex =
     "040060208c8b71956e408769453d40275830b83856bc0d8afaf60000000000000000000069167b97329b04d11aea35a48fbfc00af71c9750c4526d024dbb97158793eac31379aa672677021707a18259";
 
-  test("Ensure that remote data is as expected", () => {
+  test("Ensure that burn block height is as expected", () => {
     const bbh = simnet.execute("burn-block-height");
     expect(bbh.result).toBeUint(blockHeight);
 
@@ -47,7 +41,7 @@ describe("User can finalize btc-sbtc swap", () => {
     // therefore, we always check that simnet is in the correct state
 
     var ihh = simnet.execute("(get-stacks-block-info? id-header-hash u595012)");
-    console.log(cvToString(ihh.result));
+    expect(ihh.result).toBeSome(bufferCV(hexToBytes("abcd"))); // TODO replace with actual value
 
     const bbh = simnet.execute(
       `(at-block ${cvToString((ihh.result as SomeCV).value)} burn-block-height)`
@@ -96,12 +90,7 @@ describe("User can finalize btc-sbtc swap", () => {
     };
 
     // get transaction object
-    const blockHash = await btcRPC.call("getblockhash", [blockHeight]);
-    const txObject = await btcRPC.call("getrawtransaction", [
-      txid,
-      true,
-      blockHash,
-    ]);
+    const txObject = txObjects[0];
 
     console.log(txObject.vin);
     console.log(txObject.vout);
