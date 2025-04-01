@@ -155,8 +155,10 @@
     (premium (get premium swap))
   )
     (asserts! (is-none (get stx-receiver swap)) ERR_ALREADY_DONE)
-    (and (> premium u0))
-    (try! (sbtc-transfer premium tx-sender (get sbtc-sender swap)))
+    (and
+      (> premium u0)
+      (try! (sbtc-transfer premium tx-sender (get sbtc-sender swap)))
+    )
     (ok (map-set swaps id
       (merge swap {
         stx-receiver: (some tx-sender),
