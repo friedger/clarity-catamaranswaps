@@ -8,17 +8,15 @@ telemetry = false
 requirements = [
     { contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-lib-v5" },
     { contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-helper" },
+    { contract_id = "SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-deposit" },
     { contract_id = "SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token" },
-    { contract_id = "ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS.clarity-bitcoin-lib-v5" },
-    { contract_id = "SN1Z0WW5SMN4J99A1G1725PAB8H24CWNA7Z8H7214.sbtc-token" },
-    { contract_id = "ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS.clarity-bitcoin-helper" },
 ]
 
-[contracts.clarity-bitcoin-helper-wtx]
+[contracts.bitcoin-helper-wtx-v1]
 path = "contracts/clarity-bitcoin-helper-wtx.clar"
 depends_on = []
-epoch = "2.5"
-clarity = 2
+epoch = "3.0"
+clarity = 3
 
 
 [contracts.btc-sbtc-swap]
@@ -29,8 +27,7 @@ clarity = 3
 
 
 [repl.remote_data]
-enabled = true
+enabled = false
 api_url = "https://api.hiro.so"
-initial_height = 595050
-
+initial_height = 595012
 [notebooks]
