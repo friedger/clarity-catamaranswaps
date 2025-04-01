@@ -16,8 +16,8 @@
     "@clarigen/cli": "^2.1.2",
     "@clarigen/core": "^2.1.2",
     "@clarigen/test": "^2.1.2",
-    "@hirosystems/clarinet-sdk": "2.14.0",
-    "@hirosystems/clarinet-sdk-wasm": "2.14.0",
+    "@hirosystems/clarinet-sdk": "2.15.2",
+    "@hirosystems/clarinet-sdk-wasm": "2.15.2",
     "@noble/hashes": "^1.7.1",
     "@stacks/common": "^6.16.0",
     "@stacks/transactions": "6.17.0",
@@ -27,6 +27,6 @@
     "typescript": "^5.3.3",
     "vite": "^6.1.0",
     "vitest": "3.1.1",
-    "vitest-environment-clarinet": "^2.1.0"
+    "vitest-environment-clarinet": "^2.3.0"
   }
 }
