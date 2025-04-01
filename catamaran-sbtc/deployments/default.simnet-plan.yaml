@@ -60,6 +60,37 @@ plan:
     - id: 0
       transactions:
         - emulated-contract-publish:
+            contract-name: clarity-bitcoin-helper
+            emulated-sender: SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9
+            path: ".cache/requirements/SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-helper.clar"
+            clarity-version: 2
+      epoch: "2.1"
+    - id: 1
+      transactions:
+        - emulated-contract-publish:
+            contract-name: clarity-bitcoin-lib-v5
+            emulated-sender: SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9
+            path: ".cache/requirements/SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-lib-v5.clar"
+            clarity-version: 2
+      epoch: "2.4"
+    - id: 2
+      transactions:
+        - emulated-contract-publish:
+            contract-name: sbtc-registry
+            emulated-sender: SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4
+            path: ".cache/requirements/SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-registry.clar"
+            clarity-version: 3
+        - emulated-contract-publish:
+            contract-name: sbtc-token
+            emulated-sender: SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4
+            path: ".cache/requirements/SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token.clar"
+            clarity-version: 3
+        - emulated-contract-publish:
+            contract-name: sbtc-deposit
+            emulated-sender: SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4
+            path: ".cache/requirements/SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-deposit.clar"
+            clarity-version: 3
+        - emulated-contract-publish:
             contract-name: bitcoin-helper-wtx-v1
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/clarity-bitcoin-helper-wtx.clar
