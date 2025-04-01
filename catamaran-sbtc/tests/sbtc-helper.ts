@@ -4,16 +4,12 @@ import {
   BufferCV,
   bufferCV,
   ClarityType,
-  noneCV,
   OptionalCV,
   principalCV,
-  someCV,
   uintCV,
 } from "@stacks/transactions";
 import { expect } from "vitest";
 import { project } from "../src/clarigen-types";
-import { O } from "vitest/dist/chunks/reporters.d.CfRkRKN2.js";
-import { B } from "vitest/dist/chunks/benchmark.d.BwvBVTda.js";
 
 const { btcSbtcSwap } = projectFactory(project, "simnet");
 const accounts = simnet.getAccounts();
