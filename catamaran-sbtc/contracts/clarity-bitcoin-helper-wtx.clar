@@ -21,91 +21,79 @@
 ;; Top level function to produces a raw transaction without witnesses
 ;; from transaction parts
 (define-read-only (concat-wtx
-    (tx
-      {
-        version: (buff 4),
-        ins: (list 8
-          {
-            outpoint: {
-              hash: (buff 32),
-              index: (buff 4),
-            },
-            scriptSig: (buff 256),
-            sequence: (buff 4),
-          }),
-        outs: (list 8
-          {
-            value: (buff 8),
-            scriptPubKey: (buff 128),
-          }),
-        locktime: (buff 4),
-      })
-    (witness-data (buff 1650))
-  )
-  (unwrap-panic
-    (as-max-len?
-      (concat
-        (concat
-          (concat
-            (concat (concat (get version tx) 0x0001) (concat-ins (get ins tx)))
-            (concat-outs (get outs tx))
-          )
-          witness-data
-        )
-        (get locktime tx)
-      )
-      u4096
-    ))
-)
-
-;; helper functions to construct the raw transaction
-(define-read-only (concat-in
-    (in
-      {
+    (tx {
+      version: (buff 4),
+      ins: (list 8 {
         outpoint: {
           hash: (buff 32),
           index: (buff 4),
         },
         scriptSig: (buff 256),
         sequence: (buff 4),
-      })
-    (result (buff 4096))
+      }),
+      outs: (list 8 {
+        value: (buff 8),
+        scriptPubKey: (buff 128),
+      }),
+      locktime: (buff 4),
+    })
+    (witness-data (buff 1650))
   )
-  (unwrap-panic
-    (as-max-len?
+  (unwrap-panic (as-max-len?
+    (concat
       (concat
         (concat
-          (concat (concat result (get hash (get outpoint in)))
-            (get index (get outpoint in))
-          )
-          (concat-var (get scriptSig in))
+          (concat (concat (get version tx) 0x0001) (concat-ins (get ins tx)))
+          (concat-outs (get outs tx))
         )
-        (get sequence in)
+        witness-data
       )
-      u4096
-    ))
+      (get locktime tx)
+    )
+    u4096
+  ))
 )
 
-(define-read-only (concat-ins
-    (ins
-      (list 8
-        {
-          outpoint: {
-            hash: (buff 32),
-            index: (buff 4),
-          },
-          scriptSig: (buff 256),
-          sequence: (buff 4),
-        })
-    )
+;; helper functions to construct the raw transaction
+(define-read-only (concat-in
+    (in {
+      outpoint: {
+        hash: (buff 32),
+        index: (buff 4),
+      },
+      scriptSig: (buff 256),
+      sequence: (buff 4),
+    })
+    (result (buff 4096))
   )
-  (unwrap-panic
-    (as-max-len?
-      (concat (unwrap-panic (element-at BUFF_TO_BYTE (len ins)))
-        (fold concat-in ins 0x)
+  (unwrap-panic (as-max-len?
+    (concat
+      (concat
+        (concat (concat result (get hash (get outpoint in)))
+          (get index (get outpoint in))
+        )
+        (concat-var (get scriptSig in))
       )
-      u4096
-    ))
+      (get sequence in)
+    )
+    u4096
+  ))
+)
+
+(define-read-only (concat-ins (ins (list 8 {
+  outpoint: {
+    hash: (buff 32),
+    index: (buff 4),
+  },
+  scriptSig: (buff 256),
+  sequence: (buff 4),
+})))
+  (unwrap-panic (as-max-len?
+    (concat (unwrap-panic (element-at BUFF_TO_BYTE (len ins)))
+      (fold concat-in ins 0x)
+    )
+    u4096
+  ))
 )
 
 (define-read-only (concat-out
@@ -115,41 +103,33 @@
     })
     (result (buff 4096))
   )
-  (unwrap-panic
-    (as-max-len?
-      (concat (concat result (get value out)) (concat-var (get scriptPubKey out)))
-      u4096
-    ))
+  (unwrap-panic (as-max-len?
+    (concat (concat result (get value out)) (concat-var (get scriptPubKey out)))
+    u4096
+  ))
 )
 
-(define-read-only (concat-outs
-    (outs (list 8 {
-      value: (buff 8),
-      scriptPubKey: (buff 128),
-    })
+(define-read-only (concat-outs (outs (list 8 {
+  value: (buff 8),
+  scriptPubKey: (buff 128),
+})))
+  (unwrap-panic (as-max-len?
+    (concat (unwrap-panic (element-at BUFF_TO_BYTE (len outs)))
+      (fold concat-out outs 0x)
     )
-  )
-  (unwrap-panic
-    (as-max-len?
-      (concat (unwrap-panic (element-at BUFF_TO_BYTE (len outs)))
-        (fold concat-out outs 0x)
-      )
-      u4096
-    ))
+    u4096
+  ))
 )
 
 ;; Top level function to contruct the header from its parts
-(define-read-only (concat-header
-    (block
-      {
-        version: (buff 4),
-        parent: (buff 32),
-        merkle-root: (buff 32),
-        timestamp: (buff 4),
-        nbits: (buff 4),
-        nonce: (buff 4),
-      })
-  )
+(define-read-only (concat-header (block {
+  version: (buff 4),
+  parent: (buff 32),
+  merkle-root: (buff 32),
+  timestamp: (buff 4),
+  nbits: (buff 4),
+  nonce: (buff 4),
+}))
   (concat
     (concat
       (concat
@@ -164,8 +144,6 @@
   )
 )
 
-(define-read-only (concat-var
-    (buffer (buff 256))
-  )
+(define-read-only (concat-var (buffer (buff 256)))
   (concat (unwrap-panic (element-at BUFF_TO_BYTE (len buffer))) buffer)
 )

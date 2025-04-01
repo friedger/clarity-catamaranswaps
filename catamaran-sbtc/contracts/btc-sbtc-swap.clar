@@ -43,29 +43,21 @@
   )
 )
 
-(define-read-only (read-uint32
-    (ctx {
-      txbuff: (buff 4096),
-      index: uint,
-    })
-  )
+(define-read-only (read-uint32 (ctx {
+  txbuff: (buff 4096),
+  index: uint,
+}))
   (let (
     (data (get txbuff ctx))
     (base (get index ctx))
   )
-    (ok
-      {
-        uint32: (buff-to-uint-le
-          (unwrap-panic
-            (as-max-len?
-              (unwrap! (slice? data base (+ base u4)) ERR-OUT-OF-BOUNDS) u4
-            ))
-        ),
-        ctx: {
-          txbuff: data,
-          index: (+ u4 base),
-        },
-      })
+    (ok {
+      uint32: (buff-to-uint-le (unwrap-panic (as-max-len? (unwrap! (slice? data base (+ base u4)) ERR-OUT-OF-BOUNDS) u4))),
+      ctx: {
+        txbuff: data,
+        index: (+ u4 base),
+      },
+    })
   )
 )
 
@@ -74,64 +66,52 @@
       scriptPubKey: (buff 128),
       value: (buff 8),
     })
-    (result
-      {
-        pubscriptkey: (buff 40),
-        out: (optional
-          {
-            scriptPubKey: (buff 128),
-            value: uint,
-          }),
-      })
+    (result {
+      pubscriptkey: (buff 40),
+      out: (optional {
+        scriptPubKey: (buff 128),
+        value: uint,
+      }),
+    })
   )
   (if (is-eq (get scriptPubKey entry) (get pubscriptkey result))
-    (merge result
-      { out: (some
-        {
-          scriptPubKey: (get scriptPubKey entry),
-          value: (get uint32
-            (unwrap-panic
-              (read-uint32
-                {
-                  txbuff: (get value entry),
-                  index: u0,
-                })
-            )),
-        }) }
+    (merge result { out: (some {
+      scriptPubKey: (get scriptPubKey entry),
+      value: (get uint32
+        (unwrap-panic (read-uint32 {
+          txbuff: (get value entry),
+          index: u0,
+        }))
+      ),
+    }) }
     )
     result
   )
 )
 
 (define-public (get-out-value
-    (tx
-      {
-        version: (buff 4),
-        ins: (list 8
-          {
-            outpoint: {
-              hash: (buff 32),
-              index: (buff 4),
-            },
-            scriptSig: (buff 256),
-            sequence: (buff 4),
-          }),
-        outs: (list 8
-          {
-            value: (buff 8),
-            scriptPubKey: (buff 128),
-          }),
-        locktime: (buff 4),
-      })
+    (tx {
+      version: (buff 4),
+      ins: (list 8 {
+        outpoint: {
+          hash: (buff 32),
+          index: (buff 4),
+        },
+        scriptSig: (buff 256),
+        sequence: (buff 4),
+      }),
+      outs: (list 8 {
+        value: (buff 8),
+        scriptPubKey: (buff 128),
+      }),
+      locktime: (buff 4),
+    })
     (pubscriptkey (buff 40))
   )
-  (ok
-    (fold find-out (get outs tx)
-      {
-        pubscriptkey: pubscriptkey,
-        out: none,
-      })
-  )
+  (ok (fold find-out (get outs tx) {
+    pubscriptkey: pubscriptkey,
+    out: none,
+  }))
 )
 
 ;; create a swap between btc and stx
@@ -142,24 +122,21 @@
     (stx-receiver (optional principal))
     (premium uint)
   )
-  (let (
-    (id (var-get next-id))
-  )
+  (let ((id (var-get next-id)))
     (asserts! (map-insert active-btc-receivers btc-receiver id)
       ERR_BTC_RECEIVER_IN_USE
     )
     (asserts!
-      (map-insert swaps id
-        {
-          sats: sats,
-          btc-receiver: btc-receiver,
-          amount: amount,
-          stx-receiver: stx-receiver,
-          sbtc-sender: tx-sender,
-          when: burn-block-height,
-          done: false,
-          premium: premium,
-        })
+      (map-insert swaps id {
+        sats: sats,
+        btc-receiver: btc-receiver,
+        amount: amount,
+        stx-receiver: stx-receiver,
+        sbtc-sender: tx-sender,
+        when: burn-block-height,
+        done: false,
+        premium: premium,
+      })
       ERR_INVALID_ID
     )
     (var-set next-id (+ id u1))
@@ -172,9 +149,7 @@
   )
 )
 
-(define-public (set-stx-receiver
-    (id uint)
-  )
+(define-public (set-stx-receiver (id uint))
   (let (
     (swap (unwrap! (map-get? swaps id) ERR_INVALID_ID))
     (premium (get premium swap))
@@ -182,25 +157,19 @@
     (asserts! (is-none (get stx-receiver swap)) ERR_ALREADY_DONE)
     (and (> premium u0))
     (try! (sbtc-transfer premium tx-sender (get sbtc-sender swap)))
-    (ok
-      (map-set swaps id
-        (merge swap
-          {
-            stx-receiver: (some tx-sender),
-            when: burn-block-height,
-          })
-      ))
+    (ok (map-set swaps id
+      (merge swap {
+        stx-receiver: (some tx-sender),
+        when: burn-block-height,
+      })
+    ))
   )
 )
 
 ;; any user can cancle the swap after the expiry period
 ;; sbtc-sender can cancle it before if the stx-receiver was not yet set
-(define-public (cancel
-    (id uint)
-  )
-  (let (
-    (swap (unwrap! (map-get? swaps id) ERR_INVALID_ID))
-  )
+(define-public (cancel (id uint))
+  (let ((swap (unwrap! (map-get? swaps id) ERR_INVALID_ID)))
     (asserts!
       (or
         (and (is-none (get stx-receiver swap)) (is-eq tx-sender (get sbtc-sender swap)))
@@ -211,9 +180,7 @@
     (asserts! (not (get done swap)) ERR_ALREADY_DONE)
     (map-set swaps id (merge swap { done: true }))
     (map-delete active-btc-receivers (get btc-receiver swap))
-    (as-contract
-      (sbtc-transfer (get amount swap) tx-sender (get sbtc-sender swap))
-    )
+    (as-contract (sbtc-transfer (get amount swap) tx-sender (get sbtc-sender swap)))
   )
 )
 
@@ -222,39 +189,34 @@
     (id uint)
     (height uint)
     (blockheader (buff 80))
-    (tx
-      {
-        version: (buff 4),
-        ins: (list 8
-          {
-            outpoint: {
-              hash: (buff 32),
-              index: (buff 4),
-            },
-            scriptSig: (buff 256),
-            sequence: (buff 4),
-          }),
-        outs: (list 8
-          {
-            value: (buff 8),
-            scriptPubKey: (buff 128),
-          }),
-        locktime: (buff 4),
-      })
-    (proof
-      {
-        tx-index: uint,
-        hashes: (list 12 (buff 32)),
-        tree-depth: uint,
-      })
+    (tx {
+      version: (buff 4),
+      ins: (list 8 {
+        outpoint: {
+          hash: (buff 32),
+          index: (buff 4),
+        },
+        scriptSig: (buff 256),
+        sequence: (buff 4),
+      }),
+      outs: (list 8 {
+        value: (buff 8),
+        scriptPubKey: (buff 128),
+      }),
+      locktime: (buff 4),
+    })
+    (proof {
+      tx-index: uint,
+      hashes: (list 12 (buff 32)),
+      tree-depth: uint,
+    })
   )
   (let (
     (swap (unwrap! (map-get? swaps id) ERR_INVALID_ID))
-    (tx-buff
-      (contract-call?
-        'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-helper
-        concat-tx tx
-      ))
+    (tx-buff (contract-call?
+      'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.clarity-bitcoin-helper
+      concat-tx tx
+    ))
     (stx-receiver (unwrap! (get stx-receiver swap) ERR_NO_STX_RECEIVER))
   )
     (asserts! (is-eq tx-sender stx-receiver) ERR_FORBIDDEN)
@@ -277,10 +239,9 @@
               (map-set swaps id (merge swap { done: true }))
               (map-delete active-btc-receivers (get btc-receiver swap))
               (map-set submitted-btc-txs result id)
-              (as-contract
-                (sbtc-transfer (get amount swap) tx-sender
-                  (unwrap! (get stx-receiver swap) ERR_NO_STX_RECEIVER)
-                ))
+              (as-contract (sbtc-transfer (get amount swap) tx-sender
+                (unwrap! (get stx-receiver swap) ERR_NO_STX_RECEIVER)
+              ))
             )
             ERR_TX_VALUE_TOO_SMALL
           )
@@ -296,25 +257,22 @@
 (define-public (submit-swap-segwit
     (id uint)
     (height uint)
-    (wtx
-      {
-        version: (buff 4),
-        ins: (list 8
-          {
-            outpoint: {
-              hash: (buff 32),
-              index: (buff 4),
-            },
-            scriptSig: (buff 256),
-            sequence: (buff 4),
-          }),
-        outs: (list 8
-          {
-            value: (buff 8),
-            scriptPubKey: (buff 128),
-          }),
-        locktime: (buff 4),
-      })
+    (wtx {
+      version: (buff 4),
+      ins: (list 8 {
+        outpoint: {
+          hash: (buff 32),
+          index: (buff 4),
+        },
+        scriptSig: (buff 256),
+        sequence: (buff 4),
+      }),
+      outs: (list 8 {
+        value: (buff 8),
+        scriptPubKey: (buff 128),
+      }),
+      locktime: (buff 4),
+    })
     (witness-data (buff 1650))
     (header (buff 80))
     (tx-index uint)
@@ -349,10 +307,9 @@
               (map-set swaps id (merge swap { done: true }))
               (map-delete active-btc-receivers (get btc-receiver swap))
               (map-set submitted-btc-txs result id)
-              (as-contract
-                (sbtc-transfer (get amount swap) tx-sender
-                  (unwrap! (get stx-receiver swap) ERR_NO_STX_RECEIVER)
-                ))
+              (as-contract (sbtc-transfer (get amount swap) tx-sender
+                (unwrap! (get stx-receiver swap) ERR_NO_STX_RECEIVER)
+              ))
             )
             ERR_TX_VALUE_TOO_SMALL
           )
