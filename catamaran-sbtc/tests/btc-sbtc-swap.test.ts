@@ -94,7 +94,6 @@ const validProof = {
 
 describe("User can cancel btc-sbtc swap", () => {
   test("that Alice can create a swap with Bob and cancel it after", async () => {
-    mineSbtc(alice);
     const requestId = createSwap(alice, bob);
 
     simnet.mineEmptyBlocks(100);
@@ -128,7 +127,6 @@ describe("User can cancel btc-sbtc swap", () => {
   });
 
   test("that Alice can't cancel the swap with Bob after Bob registered btc tx", async () => {
-    mineSbtc(alice);
     const requestId = createSwap(alice, bob);
 
     // concat arrays of part

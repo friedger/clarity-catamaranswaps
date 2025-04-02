@@ -5,9 +5,8 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@hirosystems/clarinet-sdk': 2.14.0
-  '@hirosystems/clarinet-sdk-wasm': 2.14.0
-  '@stacks/common': 7.0.2
+  '@hirosystems/clarinet-sdk': 2.15.2
+  '@hirosystems/clarinet-sdk-wasm': 2.15.2
 
 importers:
 
@@ -25,16 +24,16 @@ importers:
         specifier: ^2.1.2
         version: 2.1.2(@types/node@22.13.5)(yaml@2.7.0)
       '@hirosystems/clarinet-sdk':
-        specifier: 2.14.0
-        version: 2.14.0(@types/node@22.13.5)(yaml@2.7.0)
+        specifier: 2.15.2
+        version: 2.15.2(@types/node@22.13.5)(yaml@2.7.0)
       '@hirosystems/clarinet-sdk-wasm':
-        specifier: 2.14.0
-        version: 2.14.0
+        specifier: 2.15.2
+        version: 2.15.2
       '@noble/hashes':
         specifier: ^1.7.1
         version: 1.7.1
       '@stacks/common':
-        specifier: 7.0.2
+        specifier: ^7.0.2
         version: 7.0.2
       '@stacks/transactions':
         specifier: 6.17.0
@@ -59,7 +58,7 @@ importers:
         version: 3.1.1(@types/node@22.13.5)(yaml@2.7.0)
       vitest-environment-clarinet:
         specifier: ^2.3.0
-        version: 2.3.0(@hirosystems/clarinet-sdk@2.14.0(@types/node@22.13.5)(yaml@2.7.0))(vitest@3.1.1(@types/node@22.13.5)(yaml@2.7.0))
+        version: 2.3.0(@hirosystems/clarinet-sdk@2.15.2(@types/node@22.13.5)(yaml@2.7.0))(vitest@3.1.1(@types/node@22.13.5)(yaml@2.7.0))
 
 packages:
 
@@ -230,11 +229,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@hirosystems/clarinet-sdk-wasm@2.14.0':
-    resolution: {integrity: sha512-8201WGhG8fXkIPza0XyKua0Nrg8AWRgtkHpz5AWtnycYrG9wQTfnj7CIg/UE06KBou5cQp0b2NVwOxgH3hteAA==}
+  '@hirosystems/clarinet-sdk-wasm@2.15.2':
+    resolution: {integrity: sha512-1Xxq4DfLNO1KbpQso3a4NDr6sHNzGi8Axlxb/3FClSk54BSRv+06HD3QpBN76wjZvzSql/OP4xvFgccz781P6w==}
 
-  '@hirosystems/clarinet-sdk@2.14.0':
-    resolution: {integrity: sha512-DNIGDIC1kVh0mjBPeIpFdDh+I3+k1nwsED5CCZCnj5d1W+vTWSiREUZLhouq85NahH8j+BPzPZyTEGYbGpocjg==}
+  '@hirosystems/clarinet-sdk@2.15.2':
+    resolution: {integrity: sha512-SPWKYSWI+mvFlZAjzd+cEzAKkHUi30zljA7pxcNupW8z9OszEfYRK13XrfMiZID0cwD5FhH/EyTm/49a8wYRSw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -358,6 +357,9 @@ packages:
   '@stacks/blockchain-api-client@7.10.0':
     resolution: {integrity: sha512-VQbJDJuHrj2TWDmYE2Tymqa6yMCvNkc8SXPeHgX1k1BuNKFe7HUHv1r4wA24cRpoTSpM14URJOscKLBaDyklpg==}
 
+  '@stacks/common@6.16.0':
+    resolution: {integrity: sha512-PnzvhrdGRMVZvxTulitlYafSK4l02gPCBBoI9QEoTqgSnv62oaOXhYAUUkTMFKxdHW1seVEwZsrahuXiZPIAwg==}
+
   '@stacks/common@7.0.2':
     resolution: {integrity: sha512-+RSecHdkxOtswmE4tDDoZlYEuULpnTQVeDIG5eZ32opK8cFxf4EugAcK9CsIsHx/Se1yTEaQ21WGATmJGK84lQ==}
 
@@ -376,8 +378,14 @@ packages:
   '@stacks/transactions@6.17.0':
     resolution: {integrity: sha512-FUah2BRgV66ApLcEXGNGhwyFTRXqX5Zco3LpiM3essw8PF0NQlHwwdPgtDko5RfrJl3LhGXXe/30nwsfNnB3+g==}
 
+  '@types/bn.js@5.1.6':
+    resolution: {integrity: sha512-Xh8vSwUeMKeYYrj3cX4lGQgFSF/N03r+tv4AiLl1SucqV+uTQpxRcnM8AkXKHwYP9ZPXOYXRr2KPXpVlIvqh9w==}
+
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
+
+  '@types/node@18.19.86':
+    resolution: {integrity: sha512-fifKayi175wLyKyc5qUfyENhQ1dCNI1UNjp653d8kuYcPQN5JhX3dGuP/XmvPTg/xRBn1VTLpbmi+H/Mr7tLfQ==}
 
   '@types/node@22.13.5':
     resolution: {integrity: sha512-+lTU0PxZXn0Dr1NBtC7Y8cR21AJr87dLLU953CWA6pMxxv/UDc7jYAY90upcrie1nRcD6XNG5HOYEDtgW5TxAg==}
@@ -1197,6 +1205,9 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+
   undici-types@6.20.0:
     resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
@@ -1251,7 +1262,7 @@ packages:
   vitest-environment-clarinet@2.3.0:
     resolution: {integrity: sha512-SZLrQZ9CFzTIes54a2Sw1ijOa718yyFIEAd38IbpfHZL2gY8nwM/IqKsjCrVCcrD9+/hO83V0fTJoFqZR1262Q==}
     peerDependencies:
-      '@hirosystems/clarinet-sdk': 2.14.0
+      '@hirosystems/clarinet-sdk': 2.15.2
       vitest: ^1.0.0 || ^2.0.0 || ^3.0.0
 
   vitest@3.1.1:
@@ -1377,8 +1388,8 @@ snapshots:
     dependencies:
       '@antfu/ni': 0.21.12
       '@clarigen/core': 2.1.2
-      '@hirosystems/clarinet-sdk': 2.14.0(@types/node@22.13.5)(yaml@2.7.0)
-      '@hirosystems/clarinet-sdk-wasm': 2.14.0
+      '@hirosystems/clarinet-sdk': 2.15.2(@types/node@22.13.5)(yaml@2.7.0)
+      '@hirosystems/clarinet-sdk-wasm': 2.15.2
       '@iarna/toml': 2.2.5
       '@stacks/transactions': 6.13.1
       chokidar: 3.6.0
@@ -1418,7 +1429,7 @@ snapshots:
     dependencies:
       '@scure/base': 1.2.4
       '@stacks/blockchain-api-client': 7.10.0
-      '@stacks/common': 7.0.2
+      '@stacks/common': 6.16.0
       '@stacks/network': 6.17.0
       '@stacks/stacks-blockchain-api-types': 7.10.0
       '@stacks/transactions': 6.13.1
@@ -1431,8 +1442,8 @@ snapshots:
   '@clarigen/test@2.1.2(@types/node@22.13.5)(yaml@2.7.0)':
     dependencies:
       '@clarigen/core': 2.1.2
-      '@hirosystems/clarinet-sdk': 2.14.0(@types/node@22.13.5)(yaml@2.7.0)
-      '@hirosystems/clarinet-sdk-wasm': 2.14.0
+      '@hirosystems/clarinet-sdk': 2.15.2(@types/node@22.13.5)(yaml@2.7.0)
+      '@hirosystems/clarinet-sdk-wasm': 2.15.2
       '@stacks/transactions': 6.13.0
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -1533,11 +1544,11 @@ snapshots:
   '@esbuild/win32-x64@0.24.2':
     optional: true
 
-  '@hirosystems/clarinet-sdk-wasm@2.14.0': {}
+  '@hirosystems/clarinet-sdk-wasm@2.15.2': {}
 
-  '@hirosystems/clarinet-sdk@2.14.0(@types/node@22.13.5)(yaml@2.7.0)':
+  '@hirosystems/clarinet-sdk@2.15.2(@types/node@22.13.5)(yaml@2.7.0)':
     dependencies:
-      '@hirosystems/clarinet-sdk-wasm': 2.14.0
+      '@hirosystems/clarinet-sdk-wasm': 2.15.2
       '@stacks/transactions': 6.17.0
       kolorist: 1.8.0
       prompts: 2.4.2
@@ -1651,11 +1662,16 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  '@stacks/common@6.16.0':
+    dependencies:
+      '@types/bn.js': 5.1.6
+      '@types/node': 18.19.86
+
   '@stacks/common@7.0.2': {}
 
   '@stacks/network@6.17.0':
     dependencies:
-      '@stacks/common': 7.0.2
+      '@stacks/common': 6.16.0
       cross-fetch: 3.2.0
     transitivePeerDependencies:
       - encoding
@@ -1666,7 +1682,7 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.1.5
       '@noble/secp256k1': 1.7.1
-      '@stacks/common': 7.0.2
+      '@stacks/common': 6.16.0
       '@stacks/network': 6.17.0
       c32check: 2.0.0
       lodash.clonedeep: 4.5.0
@@ -1677,7 +1693,7 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.1.5
       '@noble/secp256k1': 1.7.1
-      '@stacks/common': 7.0.2
+      '@stacks/common': 6.16.0
       '@stacks/network': 6.17.0
       c32check: 2.0.0
       lodash.clonedeep: 4.5.0
@@ -1688,14 +1704,22 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.1.5
       '@noble/secp256k1': 1.7.1
-      '@stacks/common': 7.0.2
+      '@stacks/common': 6.16.0
       '@stacks/network': 6.17.0
       c32check: 2.0.0
       lodash.clonedeep: 4.5.0
     transitivePeerDependencies:
       - encoding
 
+  '@types/bn.js@5.1.6':
+    dependencies:
+      '@types/node': 22.13.5
+
   '@types/estree@1.0.6': {}
+
+  '@types/node@18.19.86':
+    dependencies:
+      undici-types: 5.26.5
 
   '@types/node@22.13.5':
     dependencies:
@@ -2508,6 +2532,8 @@ snapshots:
 
   typescript@5.7.3: {}
 
+  undici-types@5.26.5: {}
+
   undici-types@6.20.0: {}
 
   varuint-bitcoin@1.1.2:
@@ -2545,9 +2571,9 @@ snapshots:
       fsevents: 2.3.3
       yaml: 2.7.0
 
-  vitest-environment-clarinet@2.3.0(@hirosystems/clarinet-sdk@2.14.0(@types/node@22.13.5)(yaml@2.7.0))(vitest@3.1.1(@types/node@22.13.5)(yaml@2.7.0)):
+  vitest-environment-clarinet@2.3.0(@hirosystems/clarinet-sdk@2.15.2(@types/node@22.13.5)(yaml@2.7.0))(vitest@3.1.1(@types/node@22.13.5)(yaml@2.7.0)):
     dependencies:
-      '@hirosystems/clarinet-sdk': 2.14.0(@types/node@22.13.5)(yaml@2.7.0)
+      '@hirosystems/clarinet-sdk': 2.15.2(@types/node@22.13.5)(yaml@2.7.0)
       vitest: 3.1.1(@types/node@22.13.5)(yaml@2.7.0)
 
   vitest@3.1.1(@types/node@22.13.5)(yaml@2.7.0):
