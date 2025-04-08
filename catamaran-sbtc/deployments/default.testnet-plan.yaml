@@ -1,0 +1,24 @@
+---
+id: 0
+name: Testnet deployment
+network: testnet
+stacks-node: "https://api.testnet.hiro.so"
+bitcoin-node: "http://blockstack:blockstacksystem@bitcoind.testnet.stacks.co:18332"
+plan:
+  batches:
+    - id: 0
+      transactions:
+        - contract-publish:
+            contract-name: clarity-bitcoin-helper-wtx
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 4323
+            path: contracts/clarity-bitcoin-helper-wtx.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: btc-sbtc-swap
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 7302
+            path: contracts/btc-sbtc-swap-testnet.clar
+            anchor-block-only: true
+            clarity-version: 3

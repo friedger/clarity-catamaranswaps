@@ -7,20 +7,22 @@ import {
   assertEquals,
 } from "../../src/deps.ts";
 
+const contractName = "btc-xbtc-swap";
+
 Clarinet.test({
-  name: "User can cancel btc-stx swap after 100 blocks",
+  name: "User can cancel btc-xbtc swap after 100 blocks",
   async fn(chain: Chain, accounts: Map<string, Account>) {
     const wallet_1 = accounts.get("wallet_1")!;
     const wallet_2 = accounts.get("wallet_2")!;
-    const ustx = 1000000;
+    const xbtc = 1000000;
     let block = chain.mineBlock([
       Tx.contractCall(
-        "btc-stx-swap",
+        contractName,
         "create-swap",
         [
           types.uint(10000),
           "0x76a914c70e1ca5a5ef633fe5464821ca421c173997f38888ac",
-          types.uint(ustx),
+          types.uint(xbtc),
           types.some(types.principal(wallet_2.address)),
         ],
         wallet_1.address
@@ -36,14 +38,14 @@ Clarinet.test({
     );
     assertEquals(
       block.receipts[0].events[0].stx_transfer_event.amount,
-      `${ustx}`
+      `${xbtc}`
     );
 
     chain.mineEmptyBlock(99);
 
     block = chain.mineBlock([
       Tx.contractCall(
-        "btc-stx-swap",
+        contractName,
         "cancel",
         [types.uint(id)],
         wallet_1.address
@@ -54,7 +56,7 @@ Clarinet.test({
 
     block = chain.mineBlock([
       Tx.contractCall(
-        "btc-stx-swap",
+        contractName,
         "cancel",
         [types.uint(id)],
         wallet_2.address
@@ -67,7 +69,7 @@ Clarinet.test({
     );
     assertEquals(
       block.receipts[0].events[0].stx_transfer_event.amount,
-      `${ustx}`
+      `${xbtc}`
     );
   },
 });
@@ -145,15 +147,15 @@ Clarinet.test({
     const wallet_1 = accounts.get("wallet_1")!;
     const wallet_2 = accounts.get("wallet_2")!;
     const wallet_3 = accounts.get("wallet_3")!;
-    const ustx = 1000000;
+    const xbtc = 1000000;
     let block = chain.mineBlock([
       Tx.contractCall(
-        "btc-stx-swap",
+        contractName,
         "create-swap",
         [
           types.uint(10000),
           "0x76a914c70e1ca5a5ef633fe5464821ca421c173997f38888ac",
-          types.uint(ustx),
+          types.uint(xbtc),
           types.some(types.principal(wallet_2.address)),
         ],
         wallet_1.address
@@ -169,12 +171,12 @@ Clarinet.test({
     );
     assertEquals(
       block.receipts[0].events[0].stx_transfer_event.amount,
-      `${ustx}`
+      `${xbtc}`
     );
 
     block = chain.mineBlock([
       Tx.contractCall(
-        "btc-stx-swap",
+        contractName,
         "submit-swap",
         [types.uint(id), validBlock, validTx, validProof],
         wallet_3.address

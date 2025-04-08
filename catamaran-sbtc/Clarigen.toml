@@ -1,0 +1,30 @@
+
+# Set to your project's Clarinet config file
+clarinet = "./Clarinet.toml"
+
+# Set where you'd like TypeScript types output.
+# Comment or remove section to skip TypeScript types
+[types]
+# `output` should be a path to a single file
+output = "src/clarigen-types.ts"
+
+# You can also specify multiple output paths:
+# outputs = [
+#   "src/clarigen-types.ts",
+#   "test/clarigen-types.ts"
+# ]
+
+# `types.after` - script to run after TypeScript types are generated.
+# examples:
+# after = "npm run prettier -w ./src/clarigen-types.ts"
+# after = "echo 'yay'"
+
+# Set where you'd like generated contract docs
+# Generate docs by running `clarigen docs`
+[docs]
+# `output` should be a folder
+output = "docs"
+
+# `docs.after` - script to run after docs are generated.
+# examples:
+# after = "npm run prettier -w ./docs"

@@ -204,3 +204,4 @@
     (ok true)))
 
 (mint-tokens u10000000 tx-sender)
+(map-set roles { role: BURNER_ROLE, account: tx-sender } { allowed: true })

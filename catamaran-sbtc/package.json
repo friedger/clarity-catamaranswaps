@@ -1,0 +1,32 @@
+{
+  "name": "catamaran-sbtc-tests",
+  "version": "1.0.0",
+  "description": "Run unit tests on this project.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "vitest run",
+    "test:report": "vitest run -- --coverage --costs",
+    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\"",
+    "generate:types": "clarigen"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@clarigen/cli": "^2.1.2",
+    "@clarigen/core": "^2.1.2",
+    "@clarigen/test": "^2.1.2",
+    "@hirosystems/clarinet-sdk": "2.15.2",
+    "@hirosystems/clarinet-sdk-wasm": "2.15.2",
+    "@noble/hashes": "^1.7.1",
+    "@stacks/common": "^7.0.2",
+    "@stacks/transactions": "6.17.0",
+    "bitcoin-tx-proof": "github:friedger/bitcoin-tx-proof#4394d22e6bffc1b7a7d3b9f2af5a1e37bfbea595",
+    "bitcoinjs-lib": "^6.1.7",
+    "chokidar-cli": "^3.0.0",
+    "typescript": "^5.3.3",
+    "vite": "^6.1.0",
+    "vitest": "3.1.1",
+    "vitest-environment-clarinet": "^2.3.0"
+  }
+}
