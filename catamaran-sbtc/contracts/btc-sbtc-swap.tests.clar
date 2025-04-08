@@ -19,3 +19,28 @@
   (let ((balance (unwrap-panic (contract-call? 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token get-balance (as-contract tx-sender)))))
     (or (is-eq (var-get next-id) u0) (> balance u0))
   ))
+
+(define-read-only (invariant-positive-contract-balance)
+  (let
+    (
+      (num-calls-create-swap (default-to u0 (get called (map-get? context "create-swap"))))
+      (num-calls-cancel (default-to u0 (get called (map-get? context "cancel"))))
+      (balance (unwrap-panic (contract-call? 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token get-balance (as-contract tx-sender))))
+    )
+    (if
+      (is-eq num-calls-create-swap num-calls-cancel)
+      true
+      (> balance u0)
+    )
+  )
+)
+
+(define-read-only (invariant-less-eq-cancels-than-swaps)
+  (let
+    (
+      (num-calls-create-swap (default-to u0 (get called (map-get? context "create-swap"))))
+      (num-calls-cancel (default-to u0 (get called (map-get? context "cancel"))))
+    )
+    (>= num-calls-create-swap num-calls-cancel)
+  )
+)
